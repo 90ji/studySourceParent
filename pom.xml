@@ -58,5 +58,6 @@
     </build>
     <modules>
         <module>cglibAsm</module>
+        <module>spring</module>
     </modules>
 </project>
