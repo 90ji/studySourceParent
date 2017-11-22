@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="cglibAsm" />
         <module name="springAop" />
+        <module name="springAspects" />
         <module name="springBeans" />
         <module name="springContext" />
         <module name="springCore" />
@@ -18,6 +19,7 @@
       <module name="cglibAsm" target="1.8" />
       <module name="spring" target="1.8" />
       <module name="springAop" target="1.8" />
+      <module name="springAspects" target="1.8" />
       <module name="springBeans" target="1.8" />
       <module name="springcontext" target="1.8" />
       <module name="springContext" target="1.8" />

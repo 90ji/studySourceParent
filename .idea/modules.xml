@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/cglibAsm/cglibAsm.iml" filepath="$PROJECT_DIR$/cglibAsm/cglibAsm.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/spring.iml" filepath="$PROJECT_DIR$/spring/spring.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springAop/springAop.iml" filepath="$PROJECT_DIR$/spring/springAop/springAop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring/springAspects/springAspects.iml" filepath="$PROJECT_DIR$/spring/springAspects/springAspects.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springBeans/springBeans.iml" filepath="$PROJECT_DIR$/spring/springBeans/springBeans.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springContext/springContext.iml" filepath="$PROJECT_DIR$/spring/springContext/springContext.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springCore/springCore.iml" filepath="$PROJECT_DIR$/spring/springCore/springCore.iml" />
