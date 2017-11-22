@@ -24,49 +24,28 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Type;
 
 public class EmitUtils {
-    private static final Signature CSTRUCT_NULL =
-            TypeUtils.parseConstructor("");
-    private static final Signature CSTRUCT_THROWABLE =
-            TypeUtils.parseConstructor("Throwable");
+    private static final Signature CSTRUCT_NULL = TypeUtils.parseConstructor("");
+    private static final Signature CSTRUCT_THROWABLE = TypeUtils.parseConstructor("Throwable");
 
-    private static final Signature GET_NAME =
-            TypeUtils.parseSignature("String getName()");
-    private static final Signature HASH_CODE =
-            TypeUtils.parseSignature("int hashCode()");
-    private static final Signature EQUALS =
-            TypeUtils.parseSignature("boolean equals(Object)");
-    private static final Signature STRING_LENGTH =
-            TypeUtils.parseSignature("int length()");
-    private static final Signature STRING_CHAR_AT =
-            TypeUtils.parseSignature("char charAt(int)");
-    private static final Signature FOR_NAME =
-            TypeUtils.parseSignature("Class forName(String)");
-    private static final Signature DOUBLE_TO_LONG_BITS =
-            TypeUtils.parseSignature("long doubleToLongBits(double)");
-    private static final Signature FLOAT_TO_INT_BITS =
-            TypeUtils.parseSignature("int floatToIntBits(float)");
-    private static final Signature TO_STRING =
-            TypeUtils.parseSignature("String toString()");
-    private static final Signature APPEND_STRING =
-            TypeUtils.parseSignature("StringBuffer append(String)");
-    private static final Signature APPEND_INT =
-            TypeUtils.parseSignature("StringBuffer append(int)");
-    private static final Signature APPEND_DOUBLE =
-            TypeUtils.parseSignature("StringBuffer append(double)");
-    private static final Signature APPEND_FLOAT =
-            TypeUtils.parseSignature("StringBuffer append(float)");
-    private static final Signature APPEND_CHAR =
-            TypeUtils.parseSignature("StringBuffer append(char)");
-    private static final Signature APPEND_LONG =
-            TypeUtils.parseSignature("StringBuffer append(long)");
-    private static final Signature APPEND_BOOLEAN =
-            TypeUtils.parseSignature("StringBuffer append(boolean)");
-    private static final Signature LENGTH =
-            TypeUtils.parseSignature("int length()");
-    private static final Signature SET_LENGTH =
-            TypeUtils.parseSignature("void setLength(int)");
-    private static final Signature GET_DECLARED_METHOD =
-            TypeUtils.parseSignature("java.lang.reflect.Method getDeclaredMethod(String, Class[])");
+    private static final Signature GET_NAME = TypeUtils.parseSignature("String getName()");
+    private static final Signature HASH_CODE = TypeUtils.parseSignature("int hashCode()");
+    private static final Signature EQUALS = TypeUtils.parseSignature("boolean equals(Object)");
+    private static final Signature STRING_LENGTH = TypeUtils.parseSignature("int length()");
+    private static final Signature STRING_CHAR_AT = TypeUtils.parseSignature("char charAt(int)");
+    private static final Signature FOR_NAME = TypeUtils.parseSignature("Class forName(String)");
+    private static final Signature DOUBLE_TO_LONG_BITS = TypeUtils.parseSignature("long doubleToLongBits(double)");
+    private static final Signature FLOAT_TO_INT_BITS = TypeUtils.parseSignature("int floatToIntBits(float)");
+    private static final Signature TO_STRING = TypeUtils.parseSignature("String toString()");
+    private static final Signature APPEND_STRING = TypeUtils.parseSignature("StringBuffer append(String)");
+    private static final Signature APPEND_INT = TypeUtils.parseSignature("StringBuffer append(int)");
+    private static final Signature APPEND_DOUBLE = TypeUtils.parseSignature("StringBuffer append(double)");
+    private static final Signature APPEND_FLOAT = TypeUtils.parseSignature("StringBuffer append(float)");
+    private static final Signature APPEND_CHAR = TypeUtils.parseSignature("StringBuffer append(char)");
+    private static final Signature APPEND_LONG = TypeUtils.parseSignature("StringBuffer append(long)");
+    private static final Signature APPEND_BOOLEAN = TypeUtils.parseSignature("StringBuffer append(boolean)");
+    private static final Signature LENGTH = TypeUtils.parseSignature("int length()");
+    private static final Signature SET_LENGTH = TypeUtils.parseSignature("void setLength(int)");
+    private static final Signature GET_DECLARED_METHOD = TypeUtils.parseSignature("java.lang.reflect.Method getDeclaredMethod(String, Class[])");
 
 
     public static final ArrayDelimiters DEFAULT_DELIMITERS = new ArrayDelimiters("{", ", ", "}");

@@ -24,22 +24,14 @@ import org.objectweb.asm.*;
  * @author Juozas Baliuka, Chris Nokleberg
  */
 public class CodeEmitter extends LocalVariablesSorter {
-    private static final Signature BOOLEAN_VALUE =
-            TypeUtils.parseSignature("boolean booleanValue()");
-    private static final Signature CHAR_VALUE =
-            TypeUtils.parseSignature("char charValue()");
-    private static final Signature LONG_VALUE =
-            TypeUtils.parseSignature("long longValue()");
-    private static final Signature DOUBLE_VALUE =
-            TypeUtils.parseSignature("double doubleValue()");
-    private static final Signature FLOAT_VALUE =
-            TypeUtils.parseSignature("float floatValue()");
-    private static final Signature INT_VALUE =
-            TypeUtils.parseSignature("int intValue()");
-    private static final Signature CSTRUCT_NULL =
-            TypeUtils.parseConstructor("");
-    private static final Signature CSTRUCT_STRING =
-            TypeUtils.parseConstructor("String");
+    private static final Signature BOOLEAN_VALUE = TypeUtils.parseSignature("boolean booleanValue()");
+    private static final Signature CHAR_VALUE = TypeUtils.parseSignature("char charValue()");
+    private static final Signature LONG_VALUE = TypeUtils.parseSignature("long longValue()");
+    private static final Signature DOUBLE_VALUE = TypeUtils.parseSignature("double doubleValue()");
+    private static final Signature FLOAT_VALUE = TypeUtils.parseSignature("float floatValue()");
+    private static final Signature INT_VALUE = TypeUtils.parseSignature("int intValue()");
+    private static final Signature CSTRUCT_NULL = TypeUtils.parseConstructor("");
+    private static final Signature CSTRUCT_STRING = TypeUtils.parseConstructor("String");
 
     public static final int ADD = Constants.IADD;
     public static final int MUL = Constants.IMUL;

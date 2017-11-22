@@ -29,16 +29,11 @@ import java.util.*;
  * @author Chris Nokleberg
  */
 abstract public class BeanCopier {
-    private static final BeanCopierKey KEY_FACTORY =
-            (BeanCopierKey) KeyFactory.create(BeanCopierKey.class);
-    private static final Type CONVERTER =
-            TypeUtils.parseType("net.sf.cglib.core.Converter");
-    private static final Type BEAN_COPIER =
-            TypeUtils.parseType("net.sf.cglib.beans.BeanCopier");
-    private static final Signature COPY =
-            new Signature("copy", Type.VOID_TYPE, new Type[]{Constants.TYPE_OBJECT, Constants.TYPE_OBJECT, CONVERTER});
-    private static final Signature CONVERT =
-            TypeUtils.parseSignature("Object convert(Object, Class, Object)");
+    private static final BeanCopierKey KEY_FACTORY = (BeanCopierKey) KeyFactory.create(BeanCopierKey.class);
+    private static final Type CONVERTER = TypeUtils.parseType("net.sf.cglib.core.Converter");
+    private static final Type BEAN_COPIER = TypeUtils.parseType("net.sf.cglib.beans.BeanCopier");
+    private static final Signature COPY = new Signature("copy", Type.VOID_TYPE, new Type[]{Constants.TYPE_OBJECT, Constants.TYPE_OBJECT, CONVERTER});
+    private static final Signature CONVERT = TypeUtils.parseSignature("Object convert(Object, Class, Object)");
 
     interface BeanCopierKey {
         public Object newInstance(String source, String target, boolean useConverter);

@@ -28,12 +28,9 @@ import org.objectweb.asm.Type;
  */
 class MixinEmitter extends ClassEmitter {
     private static final String FIELD_NAME = "CGLIB$DELEGATES";
-    private static final Signature CSTRUCT_OBJECT_ARRAY =
-            TypeUtils.parseConstructor("Object[]");
-    private static final Type MIXIN =
-            TypeUtils.parseType("net.sf.cglib.proxy.Mixin");
-    private static final Signature NEW_INSTANCE =
-            new Signature("newInstance", MIXIN, new Type[]{Constants.TYPE_OBJECT_ARRAY});
+    private static final Signature CSTRUCT_OBJECT_ARRAY = TypeUtils.parseConstructor("Object[]");
+    private static final Type MIXIN = TypeUtils.parseType("net.sf.cglib.proxy.Mixin");
+    private static final Signature NEW_INSTANCE = new Signature("newInstance", MIXIN, new Type[]{Constants.TYPE_OBJECT_ARRAY});
 
     public MixinEmitter(ClassVisitor v, String className, Class[] classes, int[] route) {
         super(v);

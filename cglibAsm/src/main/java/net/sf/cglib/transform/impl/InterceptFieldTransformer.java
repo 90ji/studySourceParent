@@ -25,14 +25,10 @@ import org.objectweb.asm.Type;
  */
 public class InterceptFieldTransformer extends ClassEmitterTransformer {
     private static final String CALLBACK_FIELD = "$CGLIB_READ_WRITE_CALLBACK";
-    private static final Type CALLBACK =
-            TypeUtils.parseType("net.sf.cglib.transform.impl.InterceptFieldCallback");
-    private static final Type ENABLED =
-            TypeUtils.parseType("net.sf.cglib.transform.impl.InterceptFieldEnabled");
-    private static final Signature ENABLED_SET =
-            new Signature("setInterceptFieldCallback", Type.VOID_TYPE, new Type[]{CALLBACK});
-    private static final Signature ENABLED_GET =
-            new Signature("getInterceptFieldCallback", CALLBACK, new Type[0]);
+    private static final Type CALLBACK = TypeUtils.parseType("net.sf.cglib.transform.impl.InterceptFieldCallback");
+    private static final Type ENABLED = TypeUtils.parseType("net.sf.cglib.transform.impl.InterceptFieldEnabled");
+    private static final Signature ENABLED_SET = new Signature("setInterceptFieldCallback", Type.VOID_TYPE, new Type[]{CALLBACK});
+    private static final Signature ENABLED_GET = new Signature("getInterceptFieldCallback", CALLBACK, new Type[0]);
 
     private InterceptFieldFilter filter;
 

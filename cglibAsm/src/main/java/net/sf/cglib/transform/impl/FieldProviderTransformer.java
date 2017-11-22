@@ -29,22 +29,14 @@ public class FieldProviderTransformer extends ClassEmitterTransformer {
     private static final String FIELD_NAMES = "CGLIB$FIELD_NAMES";
     private static final String FIELD_TYPES = "CGLIB$FIELD_TYPES";
 
-    private static final Type FIELD_PROVIDER =
-            TypeUtils.parseType("net.sf.cglib.transform.impl.FieldProvider");
-    private static final Type ILLEGAL_ARGUMENT_EXCEPTION =
-            TypeUtils.parseType("IllegalArgumentException");
-    private static final Signature PROVIDER_GET =
-            TypeUtils.parseSignature("Object getField(String)");
-    private static final Signature PROVIDER_SET =
-            TypeUtils.parseSignature("void setField(String, Object)");
-    private static final Signature PROVIDER_SET_BY_INDEX =
-            TypeUtils.parseSignature("void setField(int, Object)");
-    private static final Signature PROVIDER_GET_BY_INDEX =
-            TypeUtils.parseSignature("Object getField(int)");
-    private static final Signature PROVIDER_GET_TYPES =
-            TypeUtils.parseSignature("Class[] getFieldTypes()");
-    private static final Signature PROVIDER_GET_NAMES =
-            TypeUtils.parseSignature("String[] getFieldNames()");
+    private static final Type FIELD_PROVIDER = TypeUtils.parseType("net.sf.cglib.transform.impl.FieldProvider");
+    private static final Type ILLEGAL_ARGUMENT_EXCEPTION = TypeUtils.parseType("IllegalArgumentException");
+    private static final Signature PROVIDER_GET = TypeUtils.parseSignature("Object getField(String)");
+    private static final Signature PROVIDER_SET = TypeUtils.parseSignature("void setField(String, Object)");
+    private static final Signature PROVIDER_SET_BY_INDEX = TypeUtils.parseSignature("void setField(int, Object)");
+    private static final Signature PROVIDER_GET_BY_INDEX = TypeUtils.parseSignature("Object getField(int)");
+    private static final Signature PROVIDER_GET_TYPES = TypeUtils.parseSignature("Class[] getFieldTypes()");
+    private static final Signature PROVIDER_GET_NAMES = TypeUtils.parseSignature("String[] getFieldNames()");
 
     private int access;
     private Map fields;

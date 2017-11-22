@@ -107,8 +107,7 @@ import org.objectweb.asm.Type;
  * @version $Id: MethodDelegate.java,v 1.25 2006/03/05 02:43:19 herbyderby Exp $
  */
 abstract public class MethodDelegate {
-    private static final MethodDelegateKey KEY_FACTORY =
-            (MethodDelegateKey) KeyFactory.create(MethodDelegateKey.class, KeyFactory.CLASS_BY_NAME);
+    private static final MethodDelegateKey KEY_FACTORY = (MethodDelegateKey) KeyFactory.create(MethodDelegateKey.class, KeyFactory.CLASS_BY_NAME);
 
     protected Object target;
     protected String eqMethod;

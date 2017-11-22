@@ -25,14 +25,10 @@ class InvocationHandlerGenerator
         implements CallbackGenerator {
     public static final InvocationHandlerGenerator INSTANCE = new InvocationHandlerGenerator();
 
-    private static final Type INVOCATION_HANDLER =
-            TypeUtils.parseType("net.sf.cglib.proxy.InvocationHandler");
-    private static final Type UNDECLARED_THROWABLE_EXCEPTION =
-            TypeUtils.parseType("net.sf.cglib.proxy.UndeclaredThrowableException");
-    private static final Type METHOD =
-            TypeUtils.parseType("java.lang.reflect.Method");
-    private static final Signature INVOKE =
-            TypeUtils.parseSignature("Object invoke(Object, java.lang.reflect.Method, Object[])");
+    private static final Type INVOCATION_HANDLER = TypeUtils.parseType("net.sf.cglib.proxy.InvocationHandler");
+    private static final Type UNDECLARED_THROWABLE_EXCEPTION = TypeUtils.parseType("net.sf.cglib.proxy.UndeclaredThrowableException");
+    private static final Type METHOD = TypeUtils.parseType("java.lang.reflect.Method");
+    private static final Signature INVOKE = TypeUtils.parseSignature("Object invoke(Object, java.lang.reflect.Method, Object[])");
 
     public void generate(ClassEmitter ce, Context context, List methods) {
         for (Iterator it = methods.iterator(); it.hasNext(); ) {

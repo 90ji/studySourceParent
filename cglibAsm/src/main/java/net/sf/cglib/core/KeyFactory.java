@@ -56,22 +56,14 @@ import java.util.List;
  * @version $Id: KeyFactory.java,v 1.26 2006/03/05 02:43:19 herbyderby Exp $
  */
 abstract public class KeyFactory {
-    private static final Signature GET_NAME =
-            TypeUtils.parseSignature("String getName()");
-    private static final Signature GET_CLASS =
-            TypeUtils.parseSignature("Class getClass()");
-    private static final Signature HASH_CODE =
-            TypeUtils.parseSignature("int hashCode()");
-    private static final Signature EQUALS =
-            TypeUtils.parseSignature("boolean equals(Object)");
-    private static final Signature TO_STRING =
-            TypeUtils.parseSignature("String toString()");
-    private static final Signature APPEND_STRING =
-            TypeUtils.parseSignature("StringBuffer append(String)");
-    private static final Type KEY_FACTORY =
-            TypeUtils.parseType("net.sf.cglib.core.KeyFactory");
-    private static final Signature GET_SORT =
-            TypeUtils.parseSignature("int getSort()");
+    private static final Signature GET_NAME = TypeUtils.parseSignature("String getName()");
+    private static final Signature GET_CLASS = TypeUtils.parseSignature("Class getClass()");
+    private static final Signature HASH_CODE = TypeUtils.parseSignature("int hashCode()");
+    private static final Signature EQUALS = TypeUtils.parseSignature("boolean equals(Object)");
+    private static final Signature TO_STRING = TypeUtils.parseSignature("String toString()");
+    private static final Signature APPEND_STRING = TypeUtils.parseSignature("StringBuffer append(String)");
+    private static final Type KEY_FACTORY = TypeUtils.parseType("net.sf.cglib.core.KeyFactory");
+    private static final Signature GET_SORT = TypeUtils.parseSignature("int getSort()");
 
     //generated numbers: 
     private final static int PRIMES[] = {

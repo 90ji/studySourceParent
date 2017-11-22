@@ -31,6 +31,9 @@ import java.util.WeakHashMap;
  * In addition to caching generated classes for performance, it provides hooks for
  * customizing the <code>ClassLoader</code>, name of the generated class, and transformations
  * applied before generation.
+ *
+ * 所有代码生成CGLIB业务抽象类。
+ * 除了缓存生成的类的性能，它为自定义的类加载器提供挂钩，所生成的类的名称，并在生成前转换应用。
  */
 abstract public class AbstractClassGenerator<T>
         implements ClassGenerator {

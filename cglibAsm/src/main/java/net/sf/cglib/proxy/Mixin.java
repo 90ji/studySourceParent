@@ -34,8 +34,7 @@ import org.objectweb.asm.ClassVisitor;
  * @version $Id: Mixin.java,v 1.7 2005/09/27 11:42:27 baliuka Exp $
  */
 abstract public class Mixin {
-    private static final MixinKey KEY_FACTORY =
-            (MixinKey) KeyFactory.create(MixinKey.class, KeyFactory.CLASS_BY_NAME);
+    private static final MixinKey KEY_FACTORY = (MixinKey) KeyFactory.create(MixinKey.class, KeyFactory.CLASS_BY_NAME);
     private static final Map ROUTE_CACHE = Collections.synchronizedMap(new HashMap());
 
     public static final int STYLE_INTERFACES = 0;

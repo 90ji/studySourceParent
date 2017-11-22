@@ -18,8 +18,7 @@ package net.sf.cglib.core;
 import org.objectweb.asm.Type;
 
 /**
- * A representation of a method signature, containing the method name,
- * return type, and parameter types.
+ * 方法签名的表示，包含方法名、返回类型和参数类型。
  */
 public class Signature {
     private String name;

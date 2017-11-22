@@ -28,8 +28,7 @@ import org.objectweb.asm.ClassVisitor;
  * @author Juozas Baliuka
  */
 abstract public class BulkBean {
-    private static final BulkBeanKey KEY_FACTORY =
-            (BulkBeanKey) KeyFactory.create(BulkBeanKey.class);
+    private static final BulkBeanKey KEY_FACTORY = (BulkBeanKey) KeyFactory.create(BulkBeanKey.class);
 
     interface BulkBeanKey {
         public Object newInstance(String target, String[] getters, String[] setters, String[] types);

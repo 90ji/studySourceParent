@@ -28,8 +28,7 @@ import org.objectweb.asm.Type;
  */
 public class BeanGenerator extends AbstractClassGenerator {
     private static final Source SOURCE = new Source(BeanGenerator.class.getName());
-    private static final BeanGeneratorKey KEY_FACTORY =
-            (BeanGeneratorKey) KeyFactory.create(BeanGeneratorKey.class);
+    private static final BeanGeneratorKey KEY_FACTORY = (BeanGeneratorKey) KeyFactory.create(BeanGeneratorKey.class);
 
     interface BeanGeneratorKey {
         public Object newInstance(String superclass, Map props);

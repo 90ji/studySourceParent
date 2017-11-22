@@ -25,16 +25,11 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Type;
 
 class BulkBeanEmitter extends ClassEmitter {
-    private static final Signature GET_PROPERTY_VALUES =
-            TypeUtils.parseSignature("void getPropertyValues(Object, Object[])");
-    private static final Signature SET_PROPERTY_VALUES =
-            TypeUtils.parseSignature("void setPropertyValues(Object, Object[])");
-    private static final Signature CSTRUCT_EXCEPTION =
-            TypeUtils.parseConstructor("Throwable, int");
-    private static final Type BULK_BEAN =
-            TypeUtils.parseType("net.sf.cglib.beans.BulkBean");
-    private static final Type BULK_BEAN_EXCEPTION =
-            TypeUtils.parseType("net.sf.cglib.beans.BulkBeanException");
+    private static final Signature GET_PROPERTY_VALUES = TypeUtils.parseSignature("void getPropertyValues(Object, Object[])");
+    private static final Signature SET_PROPERTY_VALUES = TypeUtils.parseSignature("void setPropertyValues(Object, Object[])");
+    private static final Signature CSTRUCT_EXCEPTION = TypeUtils.parseConstructor("Throwable, int");
+    private static final Type BULK_BEAN = TypeUtils.parseType("net.sf.cglib.beans.BulkBean");
+    private static final Type BULK_BEAN_EXCEPTION = TypeUtils.parseType("net.sf.cglib.beans.BulkBeanException");
 
     public BulkBeanEmitter(ClassVisitor v,
                            String className,
