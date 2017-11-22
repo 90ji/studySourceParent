@@ -8,8 +8,17 @@
       <module fileurl="file://$PROJECT_DIR$/spring/springAspects/springAspects.iml" filepath="$PROJECT_DIR$/spring/springAspects/springAspects.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springBeans/springBeans.iml" filepath="$PROJECT_DIR$/spring/springBeans/springBeans.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springContext/springContext.iml" filepath="$PROJECT_DIR$/spring/springContext/springContext.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring/springContextSupport/springContextSupport.iml" filepath="$PROJECT_DIR$/spring/springContextSupport/springContextSupport.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springCore/springCore.iml" filepath="$PROJECT_DIR$/spring/springCore/springCore.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springExpression/springExpression.iml" filepath="$PROJECT_DIR$/spring/springExpression/springExpression.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring/springJdbc/springJdbc.iml" filepath="$PROJECT_DIR$/spring/springJdbc/springJdbc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring/springJms/springJms.iml" filepath="$PROJECT_DIR$/spring/springJms/springJms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring/springOrm/springOrm.iml" filepath="$PROJECT_DIR$/spring/springOrm/springOrm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring/springOxm/springOxm.iml" filepath="$PROJECT_DIR$/spring/springOxm/springOxm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring/springTest/springTest.iml" filepath="$PROJECT_DIR$/spring/springTest/springTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring/springTx/springTx.iml" filepath="$PROJECT_DIR$/spring/springTx/springTx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring/springWeb/springWeb.iml" filepath="$PROJECT_DIR$/spring/springWeb/springWeb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring/springWebmvc/springWebmvc.iml" filepath="$PROJECT_DIR$/spring/springWebmvc/springWebmvc.iml" />
       <module fileurl="file://$PROJECT_DIR$/studySourceParent.iml" filepath="$PROJECT_DIR$/studySourceParent.iml" />
     </modules>
   </component>

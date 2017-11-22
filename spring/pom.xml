@@ -115,6 +115,15 @@
         <module>springAop</module>
         <module>springExpression</module>
         <module>springAspects</module>
+        <module>springContextSupport</module>
+        <module>springJdbc</module>
+        <module>springJms</module>
+        <module>springOrm</module>
+        <module>springOxm</module>
+        <module>springTx</module>
+        <module>springWeb</module>
+        <module>springWebmvc</module>
+        <module>springTest</module>
     </modules>
 
 

@@ -11,8 +11,17 @@
         <module name="springAspects" />
         <module name="springBeans" />
         <module name="springContext" />
+        <module name="springContextSupport" />
         <module name="springCore" />
         <module name="springExpression" />
+        <module name="springJdbc" />
+        <module name="springJms" />
+        <module name="springOrm" />
+        <module name="springOxm" />
+        <module name="springTest" />
+        <module name="springTx" />
+        <module name="springWeb" />
+        <module name="springWebmvc" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -23,8 +32,17 @@
       <module name="springBeans" target="1.8" />
       <module name="springcontext" target="1.8" />
       <module name="springContext" target="1.8" />
+      <module name="springContextSupport" target="1.8" />
       <module name="springCore" target="1.8" />
       <module name="springExpression" target="1.8" />
+      <module name="springJdbc" target="1.8" />
+      <module name="springJms" target="1.8" />
+      <module name="springOrm" target="1.8" />
+      <module name="springOxm" target="1.8" />
+      <module name="springTest" target="1.8" />
+      <module name="springTx" target="1.8" />
+      <module name="springWeb" target="1.8" />
+      <module name="springWebmvc" target="1.8" />
       <module name="studySourceParent" target="1.8" />
     </bytecodeTargetLevel>
   </component>
