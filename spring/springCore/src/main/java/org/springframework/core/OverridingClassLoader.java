@@ -39,7 +39,7 @@ public class OverridingClassLoader extends DecoratingClassLoader {
 
 	/** Packages that are excluded by default */
 	public static final String[] DEFAULT_EXCLUDED_PACKAGES = new String[]
-			{"java.", "javax.", "sun.", "oracle.", "javassist.", "org.aspectj.", "net.sf.cglib."};
+			{"java.", "javax.", "sun.", "oracle.", "javassist.", "org.aspectj.", "org.springframework.cglib."};
 
 	private static final String CLASS_FILE_SUFFIX = ".class";
 
