@@ -24,10 +24,8 @@ import org.objectweb.asm.Type;
 class LazyLoaderGenerator implements CallbackGenerator {
     public static final LazyLoaderGenerator INSTANCE = new LazyLoaderGenerator();
 
-    private static final Signature LOAD_OBJECT =
-            TypeUtils.parseSignature("Object loadObject()");
-    private static final Type LAZY_LOADER =
-            TypeUtils.parseType("net.sf.cglib.proxy.LazyLoader");
+    private static final Signature LOAD_OBJECT = TypeUtils.parseSignature("Object loadObject()");
+    private static final Type LAZY_LOADER = TypeUtils.parseType("net.sf.cglib.proxy.LazyLoader");
 
     public void generate(ClassEmitter ce, Context context, List methods) {
         Set indexes = new HashSet();

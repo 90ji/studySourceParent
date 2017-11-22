@@ -22,10 +22,8 @@ import org.objectweb.asm.Type;
 
 class FixedValueGenerator implements CallbackGenerator {
     public static final FixedValueGenerator INSTANCE = new FixedValueGenerator();
-    private static final Type FIXED_VALUE =
-            TypeUtils.parseType("net.sf.cglib.proxy.FixedValue");
-    private static final Signature LOAD_OBJECT =
-            TypeUtils.parseSignature("Object loadObject()");
+    private static final Type FIXED_VALUE = TypeUtils.parseType("net.sf.cglib.proxy.FixedValue");
+    private static final Signature LOAD_OBJECT = TypeUtils.parseSignature("Object loadObject()");
 
     public void generate(ClassEmitter ce, Context context, List methods) {
         for (Iterator it = methods.iterator(); it.hasNext(); ) {
