@@ -12,11 +12,11 @@
     <artifactId>spring-aop</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-            <version>4.3.12.RELEASE</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-aop</artifactId>-->
+            <!--<version>4.3.12.RELEASE</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>com.jamonapi</groupId>

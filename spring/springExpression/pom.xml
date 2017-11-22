@@ -12,10 +12,16 @@
     <artifactId>spring-expression</artifactId>
 
     <dependencies>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-expression</artifactId>-->
+            <!--<version>4.3.12.RELEASE</version>-->
+        <!--</dependency>-->
+
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-expression</artifactId>
-            <version>4.3.12.RELEASE</version>
+            <groupId>com.qinxiaozhou.study</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 </project>
