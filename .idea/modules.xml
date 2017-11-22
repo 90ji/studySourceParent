@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/cglibAsm/cglibAsm.iml" filepath="$PROJECT_DIR$/cglibAsm/cglibAsm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/studySourceParent.iml" filepath="$PROJECT_DIR$/studySourceParent.iml" />
+    </modules>
+  </component>
+</project>
