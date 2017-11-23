@@ -16,6 +16,7 @@
         <module name="springExpression" />
         <module name="springJdbc" />
         <module name="springJms" />
+        <module name="springMessaging" />
         <module name="springOrm" />
         <module name="springOxm" />
         <module name="springTest" />
@@ -37,6 +38,7 @@
       <module name="springExpression" target="1.8" />
       <module name="springJdbc" target="1.8" />
       <module name="springJms" target="1.8" />
+      <module name="springMessaging" target="1.8" />
       <module name="springOrm" target="1.8" />
       <module name="springOxm" target="1.8" />
       <module name="springTest" target="1.8" />

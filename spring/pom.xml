@@ -149,6 +149,7 @@
         <module>springWeb</module>
         <module>springWebmvc</module>
         <module>springTest</module>
+        <module>springMessaging</module>
     </modules>
 
 

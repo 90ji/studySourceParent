@@ -13,6 +13,7 @@
       <module fileurl="file://$PROJECT_DIR$/spring/springExpression/springExpression.iml" filepath="$PROJECT_DIR$/spring/springExpression/springExpression.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springJdbc/springJdbc.iml" filepath="$PROJECT_DIR$/spring/springJdbc/springJdbc.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springJms/springJms.iml" filepath="$PROJECT_DIR$/spring/springJms/springJms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring/springMessaging/springMessaging.iml" filepath="$PROJECT_DIR$/spring/springMessaging/springMessaging.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springOrm/springOrm.iml" filepath="$PROJECT_DIR$/spring/springOrm/springOrm.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springOxm/springOxm.iml" filepath="$PROJECT_DIR$/spring/springOxm/springOxm.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springTest/springTest.iml" filepath="$PROJECT_DIR$/spring/springTest/springTest.iml" />
