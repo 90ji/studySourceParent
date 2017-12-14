@@ -50,6 +50,7 @@
         <module>springWebmvc</module>
         <module>springTest</module>
         <module>springMessaging</module>
+        <module>studySpringWithTest</module>
     </modules>
 
 

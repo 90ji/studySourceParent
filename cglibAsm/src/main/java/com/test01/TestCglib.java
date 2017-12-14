@@ -1,5 +1,7 @@
 package com.test01;
 
+import com.alibaba.fastjson.JSON;
+import net.sf.cglib.core.KeyFactory;
 import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.CallbackFilter;
 import net.sf.cglib.proxy.Enhancer;
@@ -12,11 +14,38 @@ import net.sf.cglib.proxy.InterfaceMaker;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 import org.junit.Test;
+import org.objectweb.asm.Type;
 
 public class TestCglib {
 
+
+    @Test
+    public void test01() {
+        Type type = Type.getType(MethodInterceptor.class);
+        System.out.println(JSON.toJSONString(type));
+    }
+    @Test
+    public void test03() {
+        boolean STRESS_HASH_CODE = Boolean.getBoolean("net.sf.cglib.test.stressHashCodes");
+        System.out.println(STRESS_HASH_CODE);
+    }
+    @Test
+    public void test02() {
+        Enhancer.EnhancerKey KEY_FACTORY = (Enhancer.EnhancerKey) KeyFactory.create(Enhancer.EnhancerKey.class, KeyFactory.HASH_ASM_TYPE, null);
+        System.out.println();
+    }
+
     /**
      * 测试普通增强
+     * <p>
+     * <p>
+     * superclass = superclass;
+     * classOnly = false;
+     * argumentTypes = null;
+     * callbacks = callbacks
+     * callbackTypes = Type.getType(MethodInterceptor.class);
+     * validateCallbackTypes = true;
+     * filter = new CallbackFilter() { public int accept(Method method) { return 0; } };
      */
     @Test
     public void testEnhancer() {
@@ -81,9 +110,7 @@ public class TestCglib {
     }
 
     /**
-     *
      * 测试接口生成器增强
-     *
      */
     @Test
     public void testAll() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {

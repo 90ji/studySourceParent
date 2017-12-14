@@ -275,7 +275,7 @@ abstract public class AbstractClassGenerator<T>
         return null;
     }
 
-    protected Object create(Object key) {
+    protected Object create(Object key) {//String net.sf.cglib.proxy.Enhancer$EnhancerKey
         try {
             ClassLoader loader = getClassLoader();
             Map<ClassLoader, ClassLoaderData> cache = CACHE;
@@ -319,7 +319,7 @@ abstract public class AbstractClassGenerator<T>
                         "Please file an issue at cglib's issue tracker.");
             }
             synchronized (classLoader) {
-                String name = generateClassName(data.getUniqueNamePredicate());
+                String name = generateClassName(data.getUniqueNamePredicate());//产生新的代理类名称
                 data.reserveName(name);
                 this.setClassName(name);
             }
@@ -331,7 +331,7 @@ abstract public class AbstractClassGenerator<T>
                     // ignore
                 }
             }
-            byte[] b = strategy.generate(this);
+            byte[] b = strategy.generate(this);//通过asm字节码增强后的byte数组
             String className = ClassNameReader.getClassName(new ClassReader(b));
             ProtectionDomain protectionDomain = getProtectionDomain();
             synchronized (classLoader) { // just in case

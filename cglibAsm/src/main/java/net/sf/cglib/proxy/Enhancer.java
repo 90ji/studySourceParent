@@ -150,7 +150,7 @@ public class Enhancer extends AbstractClassGenerator {
      * <p>
      * 内部接口，只由ClassLoader发布公开。
      */
-    public interface EnhancerKey {
+    public interface EnhancerKey {//写出一个接口来通过KeyFactory来生成具体的类
         public Object newInstance(String type,
                                   String[] interfaces,
                                   WeakCacheKey<CallbackFilter> filter,
@@ -423,7 +423,7 @@ public class Enhancer extends AbstractClassGenerator {
 
     private void preValidate() {
         if (callbackTypes == null) {
-            callbackTypes = CallbackInfo.determineTypes(callbacks, false);
+            callbackTypes = CallbackInfo.determineTypes(callbacks, false);// Type.getType(MethodInterceptor.class)
             validateCallbackTypes = true;
         }
         if (filter == null) {
@@ -553,14 +553,17 @@ public class Enhancer extends AbstractClassGenerator {
     }
 
     private Object createHelper() {
+        /**
+         * superclass = TargetObject.class;
+         * classOnly = false;
+         * argumentTypes = null;
+         * callbacks = new TargetInterceptor();
+         * callbackTypes = Type.getType(MethodInterceptor.class);
+         * validateCallbackTypes = true;
+         * filter = new CallbackFilter() { public int accept(Method method) { return 0; } };
+         */
         preValidate();
-        Object key = KEY_FACTORY.newInstance((superclass != null) ? superclass.getName() : null,
-                ReflectUtils.getNames(interfaces),
-                filter == ALL_ZERO ? null : new WeakCacheKey<CallbackFilter>(filter),
-                callbackTypes,
-                useFactory,
-                interceptDuringConstruction,
-                serialVersionUID);
+        Object key = KEY_FACTORY.newInstance((superclass != null) ? superclass.getName() : null, ReflectUtils.getNames(interfaces), filter == ALL_ZERO ? null : new WeakCacheKey<CallbackFilter>(filter), callbackTypes, useFactory, interceptDuringConstruction, serialVersionUID);
         this.currentKey = key;
         Object result = super.create(key);
         return result;
@@ -662,9 +665,9 @@ public class Enhancer extends AbstractClassGenerator {
         List actualMethods = new ArrayList();
         List interfaceMethods = new ArrayList();
         final Set forcePublic = new HashSet();
-        getMethods(sc, interfaces, actualMethods, interfaceMethods, forcePublic);
+        getMethods(sc, interfaces, actualMethods, interfaceMethods, forcePublic);//通过方法获取需要的类的相关信息,并且根据类中的信息排除相关不需要的方法
 
-        List methods = CollectionUtils.transform(actualMethods, new Transformer() {
+        List methods = CollectionUtils.transform(actualMethods, new Transformer() {//将java的方法转换为asm字节码表现形式,如:public java.lang.String com.test01.TargetObject.toString()变成 toString()Ljava/lang/String;
             public Object transform(Object value) {
                 Method method = (Method) value;
                 int modifiers = Constants.ACC_FINAL
@@ -697,7 +700,7 @@ public class Enhancer extends AbstractClassGenerator {
                     new Type[]{FACTORY},
                     Constants.SOURCE_FILE);
         }
-        List constructorInfo = CollectionUtils.transform(constructors, MethodInfoTransformer.getInstance());
+        List constructorInfo = CollectionUtils.transform(constructors, MethodInfoTransformer.getInstance());//将构造方法转为asm字节码表现形式 public com.test01.TargetObject()转为<init>()V
 
         e.declare_field(Constants.ACC_PRIVATE, BOUND_FIELD, Type.BOOLEAN_TYPE, null);
         e.declare_field(Constants.ACC_PUBLIC | Constants.ACC_STATIC, FACTORY_DATA_FIELD, OBJECT_TYPE, null);
@@ -710,7 +713,7 @@ public class Enhancer extends AbstractClassGenerator {
             e.declare_field(Constants.PRIVATE_FINAL_STATIC, Constants.SUID_FIELD_NAME, Type.LONG_TYPE, serialVersionUID);
         }
 
-        for (int i = 0; i < callbackTypes.length; i++) {
+        for (int i = 0; i < callbackTypes.length; i++) {/**很重要!!!!!!将增强的方法添加到asm字节码的构建中去*/
             e.declare_field(Constants.ACC_PRIVATE, getCallbackField(i), callbackTypes[i], null);
         }
         // This is declared private to avoid "public field" pollution

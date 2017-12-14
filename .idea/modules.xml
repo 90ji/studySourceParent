@@ -21,6 +21,7 @@
       <module fileurl="file://$PROJECT_DIR$/spring/springWeb/springWeb.iml" filepath="$PROJECT_DIR$/spring/springWeb/springWeb.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springWebmvc/springWebmvc.iml" filepath="$PROJECT_DIR$/spring/springWebmvc/springWebmvc.iml" />
       <module fileurl="file://$PROJECT_DIR$/studySourceParent.iml" filepath="$PROJECT_DIR$/studySourceParent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring/studySpringWithTest/studySpringWithTest.iml" filepath="$PROJECT_DIR$/spring/studySpringWithTest/studySpringWithTest.iml" />
     </modules>
   </component>
 </project>

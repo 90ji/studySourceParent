@@ -82,14 +82,14 @@ class CallbackInfo {
     private static Type determineType(Class callbackType, boolean checkAll) {
         Class cur = null;
         Type type = null;
-        for (int i = 0; i < CALLBACKS.length; i++) {
-            CallbackInfo info = CALLBACKS[i];
-            if (info.cls.isAssignableFrom(callbackType)) {
+        for (int i = 0; i < CALLBACKS.length; i++) {// 7
+            CallbackInfo info = CALLBACKS[i];// new CallbackInfo(MethodInterceptor.class, MethodInterceptorGenerator.INSTANCE)
+            if (info.cls.isAssignableFrom(callbackType)) {//如果与设置的类型相同
                 if (cur != null) {
                     throw new IllegalStateException("Callback implements both " + cur + " and " + info.cls);
                 }
-                cur = info.cls;
-                type = info.type;
+                cur = info.cls;// MethodInterceptor.class
+                type = info.type;// Type.getType(MethodInterceptor.class)
                 if (!checkAll) {
                     break;
                 }
@@ -98,7 +98,7 @@ class CallbackInfo {
         if (cur == null) {
             throw new IllegalStateException("Unknown callback type " + callbackType);
         }
-        return type;
+        return type;// Type.getType(MethodInterceptor.class)
     }
 
     private static CallbackGenerator getGenerator(Type callbackType) {

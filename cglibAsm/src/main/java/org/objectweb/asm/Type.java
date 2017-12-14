@@ -454,7 +454,7 @@ public class Type {
      */
     private static Type getType(final char[] buf, final int off) {
         int len;
-        switch (buf[off]) {
+        switch (buf[off]) {//0
         case 'V':
             return VOID_TYPE;
         case 'Z':
