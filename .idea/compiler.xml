@@ -10,6 +10,7 @@
         <module name="springAop" />
         <module name="springAspects" />
         <module name="springBeans" />
+        <module name="springBeansWithoutException" />
         <module name="springContext" />
         <module name="springContextSupport" />
         <module name="springCore" />
@@ -32,6 +33,7 @@
       <module name="springAop" target="1.8" />
       <module name="springAspects" target="1.8" />
       <module name="springBeans" target="1.8" />
+      <module name="springBeansWithoutException" target="1.8" />
       <module name="springcontext" target="1.8" />
       <module name="springContext" target="1.8" />
       <module name="springContextSupport" target="1.8" />

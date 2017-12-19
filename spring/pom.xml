@@ -51,6 +51,7 @@
         <module>springTest</module>
         <module>springMessaging</module>
         <module>studySpringWithTest</module>
+        <module>springBeansWithoutException</module>
     </modules>
 
 

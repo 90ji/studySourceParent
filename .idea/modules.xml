@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/spring/springAop/springAop.iml" filepath="$PROJECT_DIR$/spring/springAop/springAop.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springAspects/springAspects.iml" filepath="$PROJECT_DIR$/spring/springAspects/springAspects.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springBeans/springBeans.iml" filepath="$PROJECT_DIR$/spring/springBeans/springBeans.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring/springBeansWithoutException/springBeansWithoutException.iml" filepath="$PROJECT_DIR$/spring/springBeansWithoutException/springBeansWithoutException.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springContext/springContext.iml" filepath="$PROJECT_DIR$/spring/springContext/springContext.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springContextSupport/springContextSupport.iml" filepath="$PROJECT_DIR$/spring/springContextSupport/springContextSupport.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springCore/springCore.iml" filepath="$PROJECT_DIR$/spring/springCore/springCore.iml" />
