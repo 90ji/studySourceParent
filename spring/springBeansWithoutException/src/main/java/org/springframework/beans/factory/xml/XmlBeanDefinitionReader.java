@@ -411,19 +411,13 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
              */
             /**非常复杂!!!!!!!!!!!!!!!!!*/
             return registerBeanDefinitions(doc, resource);
-        } catch (BeanDefinitionStoreException ex) {
-            throw ex;
-        } catch (SAXParseException ex) {
-            throw new XmlBeanDefinitionStoreException(resource.getDescription(), "Line " + ex.getLineNumber() + " in XML document from " + resource + " is invalid", ex);
-        } catch (SAXException ex) {
-            throw new XmlBeanDefinitionStoreException(resource.getDescription(), "XML document from " + resource + " is invalid", ex);
-        } catch (ParserConfigurationException ex) {
-            throw new BeanDefinitionStoreException(resource.getDescription(), "Parser configuration exception parsing XML from " + resource, ex);
-        } catch (IOException ex) {
-            throw new BeanDefinitionStoreException(resource.getDescription(), "IOException parsing XML document from " + resource, ex);
-        } catch (Throwable ex) {
-            throw new BeanDefinitionStoreException(resource.getDescription(), "Unexpected exception parsing XML document from " + resource, ex);
-        }
+
+        } catch (BeanDefinitionStoreException ex) { throw ex;
+        } catch (SAXParseException ex) { throw new XmlBeanDefinitionStoreException(resource.getDescription(), "Line " + ex.getLineNumber() + " in XML document from " + resource + " is invalid", ex);
+        } catch (SAXException ex) { throw new XmlBeanDefinitionStoreException(resource.getDescription(), "XML document from " + resource + " is invalid", ex);
+        } catch (ParserConfigurationException ex) { throw new BeanDefinitionStoreException(resource.getDescription(), "Parser configuration exception parsing XML from " + resource, ex);
+        } catch (IOException ex) { throw new BeanDefinitionStoreException(resource.getDescription(), "IOException parsing XML document from " + resource, ex);
+        } catch (Throwable ex) { throw new BeanDefinitionStoreException(resource.getDescription(), "Unexpected exception parsing XML document from " + resource, ex);}
     }
 
     /**
@@ -521,8 +515,11 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
      * @see BeanDefinitionDocumentReader#registerBeanDefinitions
      */
     public int registerBeanDefinitions(Document doc, Resource resource) throws BeanDefinitionStoreException {
-        BeanDefinitionDocumentReader documentReader = createBeanDefinitionDocumentReader();
+        /**获取默认文档读取器*/
+        BeanDefinitionDocumentReader documentReader = createBeanDefinitionDocumentReader();//DefaultBeanDefinitionDocumentReader
+        //获取当前BeanDefinition这个map中存储对象的数量,XmlBeanFactory.getBeanDefinitionCount() -> DefaultListableBeanFactory..getBeanDefinitionCount()
         int countBefore = getRegistry().getBeanDefinitionCount();
+        /**通过文档读取器注册bean*/
         documentReader.registerBeanDefinitions(doc, createReaderContext(resource));
         return getRegistry().getBeanDefinitionCount() - countBefore;
     }
@@ -542,8 +539,13 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
      * Create the {@link XmlReaderContext} to pass over to the document reader.
      */
     public XmlReaderContext createReaderContext(Resource resource) {
-        return new XmlReaderContext(resource, this.problemReporter, this.eventListener,
-                this.sourceExtractor, this, getNamespaceHandlerResolver());
+        return new XmlReaderContext(
+                resource, //资源文件
+                this.problemReporter, //new FailFastProblemReporter() 记录警告日志和抛出异常
+                this.eventListener, //new EmptyReaderEventListener() 一个监听器的空实现
+                this.sourceExtractor, //new NullSourceExtractor() 一个资源执行器的空实现
+                this, //XmlBeanDefinitionReader
+                getNamespaceHandlerResolver()); //new DefaultNamespaceHandlerResolver(getResourceLoader().getClassLoader())
     }
 
     /**
