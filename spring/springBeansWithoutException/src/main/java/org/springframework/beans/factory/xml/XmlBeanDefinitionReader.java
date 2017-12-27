@@ -175,7 +175,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
      * Return the validation mode to use.
      */
     public int getValidationMode() {
-        return this.validationMode;
+        return this.validationMode;// VALIDATION_AUTO -> XmlValidationModeDetector.VALIDATION_AUTO -> 1
     }
 
     /**
@@ -260,7 +260,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     protected EntityResolver getEntityResolver() {
         if (this.entityResolver == null) {
             // Determine default EntityResolver to use.
-            ResourceLoader resourceLoader = getResourceLoader();
+            /**确定要使用的默认EntityResolver*/
+            ResourceLoader resourceLoader = getResourceLoader();//new DefaultResourceLoader()
             if (resourceLoader != null) {
                 this.entityResolver = new ResourceEntityResolver(resourceLoader);
             } else {
@@ -335,6 +336,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 //					"Detected cyclic loading of " + encodedResource + " - check your import definitions!");
 //		}
         try {
+            /**读取配置文件,将文件转为流*/
             InputStream inputStream = encodedResource.getResource().getInputStream();
             try {
                 InputSource inputSource = new InputSource(inputStream);
@@ -342,6 +344,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
                     inputSource.setEncoding(encodedResource.getEncoding());
                 }
                 /**真正的逻辑部分*/
+                /**
+                 * inputSource 资源文件的流对象
+                 * encodedResource.getResource() -> resource 资源文件
+                 */
                 return doLoadBeanDefinitions(inputSource, encodedResource.getResource());
             } finally {
                 inputStream.close();
@@ -393,15 +399,16 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
      * @see #doLoadDocument
      * @see #registerBeanDefinitions
      */
-    protected int doLoadBeanDefinitions(InputSource inputSource, Resource resource)
-            throws BeanDefinitionStoreException {
+    protected int doLoadBeanDefinitions(InputSource inputSource, Resource resource) throws BeanDefinitionStoreException {
         try {
             /**
              * （1）获取对XML文件的验证模式。
              * （2）加载XML文件，并得到对应的Document。
-             * （3）根据返回的Document注册Bean信息。
-             * */
+             */
             Document doc = doLoadDocument(inputSource, resource);
+            /**
+             * （3）根据返回的Document注册Bean信息。
+             */
             /**非常复杂!!!!!!!!!!!!!!!!!*/
             return registerBeanDefinitions(doc, resource);
         } catch (BeanDefinitionStoreException ex) {
@@ -430,7 +437,19 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
      * @see DocumentLoader#loadDocument
      */
     protected Document doLoadDocument(InputSource inputSource, Resource resource) throws Exception {
-        return this.documentLoader.loadDocument(inputSource, getEntityResolver(), this.errorHandler, getValidationModeForResource(resource), isNamespaceAware());
+        /**
+         * inputSource 资源文件的流对象
+         * getEntityResolver() 实体类解析器
+         * this.errorHandler = new SimpleSaxErrorHandler(logger); 错误处理器,用来抛出异常或者记录warning日志
+         * getValidationModeForResource(resource) 获取资源文件的约束类型(看资源文件是dtd还是xsd) -> 3
+         */
+        /**new DefaultDocumentLoader()*/
+        return this.documentLoader.loadDocument(
+                inputSource,
+                getEntityResolver(), /*new ResourceEntityResolver(resourceLoader) -> new DefaultResourceLoader()*/
+                this.errorHandler/*new SimpleSaxErrorHandler(logger)*/,
+                getValidationModeForResource(resource)/*3*/,
+                isNamespaceAware()/*false*/);
     }
 
 
@@ -442,10 +461,11 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
      * mode, even when something other than {@link #VALIDATION_AUTO} was set.
      */
     protected int getValidationModeForResource(Resource resource) {
-        int validationModeToUse = getValidationMode();
+        int validationModeToUse = getValidationMode();//VALIDATION_AUTO
         if (validationModeToUse != VALIDATION_AUTO) {
             return validationModeToUse;
         }
+        /**判断资源文件是dtd还是xsd*/
         int detectedMode = detectValidationMode(resource);
         if (detectedMode != VALIDATION_AUTO) {
             return detectedMode;

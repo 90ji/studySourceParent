@@ -59,7 +59,7 @@ public class DelegatingEntityResolver implements EntityResolver {
 	 */
 	public DelegatingEntityResolver(ClassLoader classLoader) {
 		this.dtdResolver = new BeansDtdResolver();
-		this.schemaResolver = new PluggableSchemaResolver(classLoader);
+		this.schemaResolver = new PluggableSchemaResolver(classLoader);//ClassUtils.getDefaultClassLoader()
 	}
 
 	/**

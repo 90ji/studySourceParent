@@ -65,7 +65,7 @@ public class ResourceEntityResolver extends DelegatingEntityResolver {
 	 */
 	public ResourceEntityResolver(ResourceLoader resourceLoader) {
 		super(resourceLoader.getClassLoader());
-		this.resourceLoader = resourceLoader;
+		this.resourceLoader = resourceLoader;//new DefaultResourceLoader()
 	}
 
 

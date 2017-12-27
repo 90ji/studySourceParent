@@ -81,8 +81,8 @@ public class PluggableSchemaResolver implements EntityResolver {
 	 * @see PropertiesLoaderUtils#loadAllProperties(String, ClassLoader)
 	 */
 	public PluggableSchemaResolver(ClassLoader classLoader) {
-		this.classLoader = classLoader;
-		this.schemaMappingsLocation = DEFAULT_SCHEMA_MAPPINGS_LOCATION;
+		this.classLoader = classLoader;//ClassUtils.getDefaultClassLoader()
+		this.schemaMappingsLocation = DEFAULT_SCHEMA_MAPPINGS_LOCATION;//"META-INF/spring.schemas"
 	}
 
 	/**

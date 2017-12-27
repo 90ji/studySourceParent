@@ -22,6 +22,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.util.xml.SimpleSaxErrorHandler;
 import org.w3c.dom.Document;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
@@ -64,14 +66,36 @@ public class DefaultDocumentLoader implements DocumentLoader {
      * Load the {@link Document} at the supplied {@link InputSource} using the standard JAXP-configured
      * XML parser.
      */
+    /**
+     * @param inputSource    资源的流对象
+     * @param entityResolver new ResourceEntityResolver(resourceLoader) -> new DefaultResourceLoader()
+     * @param errorHandler   new SimpleSaxErrorHandler(logger)
+     * @param validationMode 3  (判断是DTD 还是 XSD)
+     * @param namespaceAware false
+     */
     @Override
     public Document loadDocument(InputSource inputSource, EntityResolver entityResolver, ErrorHandler errorHandler, int validationMode, boolean namespaceAware) throws Exception {
 
-        DocumentBuilderFactory factory = createDocumentBuilderFactory(validationMode, namespaceAware);
+        /**
+         * DocumentBuilderFactoryImpl
+         * @param namespaceAware = true
+         * @param validating = true
+         * @param attributes: "http://java.sun.com/xml/jaxp/properties/schemaLanguage":"http://www.w3.org/2001/XMLSchema"
+         */
+        DocumentBuilderFactory factory = createDocumentBuilderFactory(validationMode/*3*/, namespaceAware/*false*/);
+
 //		if (logger.isDebugEnabled()) {
 //			logger.debug("Using JAXP provider [" + factory.getClass().getName() + "]");
 //		}
+        /**
+         * new DocumentBuilderImpl(this, attributes, features, fSecureProcess);
+         * @param this    DocumentBuilderFactoryImpl()
+         * @param attributes 同上
+         * @param features   null
+         * @param fSecureProcess true
+         */
         DocumentBuilder builder = createDocumentBuilder(factory, entityResolver, errorHandler);
+        /**解析资源文件的流对象*/
         return builder.parse(inputSource);
     }
 
@@ -84,17 +108,19 @@ public class DefaultDocumentLoader implements DocumentLoader {
      * @return the JAXP DocumentBuilderFactory
      * @throws ParserConfigurationException if we failed to build a proper DocumentBuilderFactory
      */
-    protected DocumentBuilderFactory createDocumentBuilderFactory(int validationMode, boolean namespaceAware)
-            throws ParserConfigurationException {
+    protected DocumentBuilderFactory createDocumentBuilderFactory(int validationMode/*3*/, boolean namespaceAware/*false*/) throws ParserConfigurationException {
 
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(namespaceAware);
+        /**
+         * 获取一个文档工厂
+         */
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();//new DocumentBuilderFactoryImpl()
+        factory.setNamespaceAware(namespaceAware);//false
 
-        if (validationMode != XmlValidationModeDetector.VALIDATION_NONE) {
-            factory.setValidating(true);
-            if (validationMode == XmlValidationModeDetector.VALIDATION_XSD) {
+        if (validationMode != XmlValidationModeDetector.VALIDATION_NONE/*0*/) {
+            factory.setValidating(true);//true
+            if (validationMode == XmlValidationModeDetector.VALIDATION_XSD/*3*/) {
                 // Enforce namespace aware for XSD...
-                factory.setNamespaceAware(true);
+                factory.setNamespaceAware(true);//true
                 try {
                     factory.setAttribute(SCHEMA_LANGUAGE_ATTRIBUTE, XSD_SCHEMA_LANGUAGE);
                 } catch (IllegalArgumentException ex) {
@@ -123,11 +149,20 @@ public class DefaultDocumentLoader implements DocumentLoader {
      * @return the JAXP DocumentBuilder
      * @throws ParserConfigurationException if thrown by JAXP methods
      */
-    protected DocumentBuilder createDocumentBuilder(
-            DocumentBuilderFactory factory, EntityResolver entityResolver, ErrorHandler errorHandler)
-            throws ParserConfigurationException {
-
-        DocumentBuilder docBuilder = factory.newDocumentBuilder();
+    protected DocumentBuilder createDocumentBuilder(DocumentBuilderFactory factory, EntityResolver entityResolver, ErrorHandler errorHandler) throws ParserConfigurationException {
+        /**
+         * @param factory    DocumentBuilderFactoryImpl
+         *                          namespaceAware = true
+         *                          validating = true
+         *                          attributes: "http://java.sun.com/xml/jaxp/properties/schemaLanguage":"http://www.w3.org/2001/XMLSchema"
+         * @param entityResolver new ResourceEntityResolver(resourceLoader) -> new DefaultResourceLoader()
+         * @param errorHandler   new SimpleSaxErrorHandler(logger)
+         */
+        DocumentBuilder docBuilder = factory.newDocumentBuilder();// new DocumentBuilderImpl(this, attributes, features /*null*/, fSecureProcess/*true*/)
+        /**
+         * 1,创建了一个DOMParser()对象
+         * 2,为这个对象赋初始值
+         */
         if (entityResolver != null) {
             docBuilder.setEntityResolver(entityResolver);
         }
