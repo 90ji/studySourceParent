@@ -28,8 +28,9 @@ public class BootTest {
     @Test
     public void testSimpleLoad(){
         BeanFactory bf = new XmlBeanFactory(new ClassPathResource( "application.xml"));
-        MyTestBean bean=(MyTestBean) bf.getBean("myTestBean");
+        MyTestBean bean=bf.getBean("myTestBean",MyTestBean.class);
 
         assertEquals("hello Horld!",bean.getTestStr());
+        System.out.println("success!");
     }
 }

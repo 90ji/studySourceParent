@@ -31,12 +31,12 @@ import org.springframework.core.Conventions;
  * directly through to bean properties. An important point to note is that this
  * {@code NamespaceHandler} does not have a corresponding schema since there
  * is no way to know in advance all possible attribute names.
- *
+ * <p>
  * <p>An example of the usage of this {@code NamespaceHandler} is shown below:
- *
+ * <p>
  * <pre class="code">
  * &lt;bean id=&quot;rob&quot; class=&quot;..TestBean&quot; p:name=&quot;Rob Harrop&quot; p:spouse-ref=&quot;sally&quot;/&gt;</pre>
- *
+ * <p>
  * Here the '{@code p:name}' corresponds directly to the '{@code name}'
  * property on class '{@code TestBean}'. The '{@code p:spouse-ref}'
  * attributes corresponds to the '{@code spouse}' property and, rather
@@ -49,40 +49,38 @@ import org.springframework.core.Conventions;
  */
 public class SimplePropertyNamespaceHandler implements NamespaceHandler {
 
-	private static final String REF_SUFFIX = "-ref";
+    private static final String REF_SUFFIX = "-ref";
 
 
-	@Override
-	public void init() {
-	}
+    @Override
+    public void init() {
+    }
 
-	@Override
-	public BeanDefinition parse(Element element, ParserContext parserContext) {
-		parserContext.getReaderContext().error(
-				"Class [" + getClass().getName() + "] does not support custom elements.", element);
-		return null;
-	}
+    @Override
+    public BeanDefinition parse(Element element, ParserContext parserContext) {
+        parserContext.getReaderContext().error("Class [" + getClass().getName() + "] does not support custom elements.", element);
+        return null;
+    }
 
-	@Override
-	public BeanDefinitionHolder decorate(Node node, BeanDefinitionHolder definition, ParserContext parserContext) {
-		if (node instanceof Attr) {
-			Attr attr = (Attr) node;
-			String propertyName = parserContext.getDelegate().getLocalName(attr);
-			String propertyValue = attr.getValue();
-			MutablePropertyValues pvs = definition.getBeanDefinition().getPropertyValues();
-			if (pvs.contains(propertyName)) {
-				parserContext.getReaderContext().error("Property '" + propertyName + "' is already defined using " +
-						"both <property> and inline syntax. Only one approach may be used per property.", attr);
-			}
-			if (propertyName.endsWith(REF_SUFFIX)) {
-				propertyName = propertyName.substring(0, propertyName.length() - REF_SUFFIX.length());
-				pvs.add(Conventions.attributeNameToPropertyName(propertyName), new RuntimeBeanReference(propertyValue));
-			}
-			else {
-				pvs.add(Conventions.attributeNameToPropertyName(propertyName), propertyValue);
-			}
-		}
-		return definition;
-	}
+    @Override
+    public BeanDefinitionHolder decorate(Node node, BeanDefinitionHolder definition, ParserContext parserContext) {
+        if (node instanceof Attr) {
+            Attr attr = (Attr) node;
+            String propertyName = parserContext.getDelegate().getLocalName(attr);
+            String propertyValue = attr.getValue();
+            MutablePropertyValues pvs = definition.getBeanDefinition().getPropertyValues();
+            if (pvs.contains(propertyName)) {
+                parserContext.getReaderContext().error("Property '" + propertyName + "' is already defined using " +
+                        "both <property> and inline syntax. Only one approach may be used per property.", attr);
+            }
+            if (propertyName.endsWith(REF_SUFFIX)) {
+                propertyName = propertyName.substring(0, propertyName.length() - REF_SUFFIX.length());
+                pvs.add(Conventions.attributeNameToPropertyName(propertyName), new RuntimeBeanReference(propertyValue));
+            } else {
+                pvs.add(Conventions.attributeNameToPropertyName(propertyName), propertyValue);
+            }
+        }
+        return definition;
+    }
 
 }

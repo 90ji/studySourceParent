@@ -138,8 +138,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
         if (this.delegate.isDefaultNamespace(root)) {
             String profileSpec = root.getAttribute(PROFILE_ATTRIBUTE/*profile*/);
             if (StringUtils.hasText(profileSpec/*""*/)) {
-                String[] specifiedProfiles = StringUtils.tokenizeToStringArray(
-                        profileSpec, BeanDefinitionParserDelegate.MULTI_VALUE_ATTRIBUTE_DELIMITERS);
+                String[] specifiedProfiles = StringUtils.tokenizeToStringArray(profileSpec, BeanDefinitionParserDelegate.MULTI_VALUE_ATTRIBUTE_DELIMITERS);
                 if (!getReaderContext().getEnvironment().acceptsProfiles(specifiedProfiles)) {
                     if (logger.isInfoEnabled()) {
                         logger.info("Skipped XML bean definition file due to specified profiles [" + profileSpec +
@@ -168,7 +167,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
     /**
      * Parse the elements at the root level in the document:
      * "import", "alias", "bean".
-     *
+     * <p>
      * 解析文档中根层的元素：  “import"导入，“alias"别名，“bean”。
      *
      * @param root the DOM root element of the document
@@ -181,9 +180,10 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
                 if (node instanceof Element) {
                     Element ele = (Element) node;
                     if (delegate.isDefaultNamespace(ele)) {
-                        /**这是解析的重点*/
+                        /**这是解析spring本身bean属性的方法,很重要*/
                         parseDefaultElement(ele, delegate);
                     } else {
+                        /**用来解析自定义的bean元素*/
                         delegate.parseCustomElement(ele);
                     }
                 }
@@ -309,6 +309,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
          *
          */
         if (bdHolder != null) {
+            /**添加自定义的属性*/
             bdHolder = delegate.decorateBeanDefinitionIfRequired(ele, bdHolder);
             try {
                 // Register the final decorated instance.

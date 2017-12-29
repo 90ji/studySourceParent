@@ -536,14 +536,14 @@ public class BeanDefinitionParserDelegate {
             /**(1)解析bean的属性,将解析到的属性添加到bd中去*/
             parseBeanDefinitionAttributes(ele, beanName, containingBean, bd);
             bd.setDescription(DomUtils.getChildElementValueByTagName(ele, DESCRIPTION_ELEMENT/*description*/));//null
-            /**(2)解析当前元素的子元素,将解析到的属性添加到bd中去*/
+            /**(2)解析meta子元素,将解析到的属性添加到bd中去*/
             parseMetaElements(ele, bd);
-            parseLookupOverrideSubElements(ele, bd.getMethodOverrides());
-            parseReplacedMethodSubElements(ele, bd.getMethodOverrides());
-            /**(3)解析构造器,参数,预置元素,将解析到的属性添加到bd中去*/
+            parseLookupOverrideSubElements(ele, bd.getMethodOverrides());//解析Lookup-override子元素
+            parseReplacedMethodSubElements(ele, bd.getMethodOverrides());//解析replaced-method子元素
+            /**(3)解析构造器参数元素,将解析到的属性添加到bd中去*/
             parseConstructorArgElements(ele, bd);
-            parsePropertyElements(ele, bd);
-            parseQualifierElements(ele, bd);
+            parsePropertyElements(ele, bd);//解析property子元素
+            parseQualifierElements(ele, bd);//解析qualifier子元素
 
             bd.setResource(this.readerContext.getResource());//new ClassPathResource( "application.xml")
             bd.setSource(extractSource(ele)/*null*/);
