@@ -333,6 +333,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
                 }
 
                 // Create bean instance.
+                /**通过不同的scope创建bean实例*/
                 if (mbd.isSingleton()) {
                     sharedInstance = getSingleton(beanName, new ObjectFactory<Object>() {
                         @Override
@@ -389,13 +390,14 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
         }
 
         // Check if required type matches the type of the actual bean instance.
+        //用来转换所创建的bean的类型
         if (requiredType != null && bean != null && !requiredType.isInstance(bean)) {
             try {
                 return getTypeConverter().convertIfNecessary(bean, requiredType);
             } catch (TypeMismatchException ex) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Failed to convert bean '" + name + "' to required type '" + ClassUtils.getQualifiedName(requiredType) + "'", ex);
-                }
+//                if (logger.isDebugEnabled()) {
+//                    logger.debug("Failed to convert bean '" + name + "' to required type '" + ClassUtils.getQualifiedName(requiredType) + "'", ex);
+//                }
                 throw new BeanNotOfRequiredTypeException(name, requiredType, bean.getClass());
             }
         }
@@ -1221,8 +1223,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
      * @return a (potentially merged) RootBeanDefinition for the given bean
      * @throws BeanDefinitionStoreException in case of an invalid bean definition
      */
-    protected RootBeanDefinition getMergedBeanDefinition(String beanName, BeanDefinition bd)
-            throws BeanDefinitionStoreException {
+    protected RootBeanDefinition getMergedBeanDefinition(String beanName, BeanDefinition bd) throws BeanDefinitionStoreException {
 
         return getMergedBeanDefinition(beanName, bd, null);
     }
@@ -1238,9 +1239,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
      * @return a (potentially merged) RootBeanDefinition for the given bean
      * @throws BeanDefinitionStoreException in case of an invalid bean definition
      */
-    protected RootBeanDefinition getMergedBeanDefinition(
-            String beanName, BeanDefinition bd, BeanDefinition containingBd)
-            throws BeanDefinitionStoreException {
+    protected RootBeanDefinition getMergedBeanDefinition(String beanName, BeanDefinition bd, BeanDefinition containingBd) throws BeanDefinitionStoreException {
 
         synchronized (this.mergedBeanDefinitions) {
             RootBeanDefinition mbd = null;
@@ -1274,8 +1273,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
                             }
                         }
                     } catch (NoSuchBeanDefinitionException ex) {
-                        throw new BeanDefinitionStoreException(bd.getResourceDescription(), beanName,
-                                "Could not resolve parent bean definition '" + bd.getParentName() + "'", ex);
+                        throw new BeanDefinitionStoreException(bd.getResourceDescription(), beanName, "Could not resolve parent bean definition '" + bd.getParentName() + "'", ex);
                     }
                     // Deep copy with overridden values.
                     mbd = new RootBeanDefinition(pbd);
@@ -1315,8 +1313,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
      * @param args     the arguments for bean creation, if any
      * @throws BeanDefinitionStoreException in case of validation failure
      */
-    protected void checkMergedBeanDefinition(RootBeanDefinition mbd, String beanName, Object[] args)
-            throws BeanDefinitionStoreException {
+    protected void checkMergedBeanDefinition(RootBeanDefinition mbd, String beanName, Object[] args) throws BeanDefinitionStoreException {
 
         if (mbd.isAbstract()) {
             throw new BeanIsAbstractException(beanName);
@@ -1608,8 +1605,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
      * @param mbd          the merged bean definition
      * @return the object to expose for the bean
      */
-    protected Object getObjectForBeanInstance(
-            Object beanInstance, String name, String beanName, RootBeanDefinition mbd) {
+    protected Object getObjectForBeanInstance(Object beanInstance, String name, String beanName, RootBeanDefinition mbd) {
 
         // Don't let calling code try to dereference the factory if the bean isn't a factory.
         if (BeanFactoryUtils.isFactoryDereference(name) && !(beanInstance instanceof FactoryBean)) {
