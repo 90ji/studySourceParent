@@ -217,9 +217,9 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 							"Singleton bean creation not allowed while singletons of this factory are in destruction " +
 							"(Do not request a bean from a BeanFactory in a destroy method implementation!)");
 				}
-				if (logger.isDebugEnabled()) {
-					logger.debug("Creating shared instance of singleton bean '" + beanName + "'");
-				}
+//				if (logger.isDebugEnabled()) {
+//					logger.debug("Creating shared instance of singleton bean '" + beanName + "'");
+//				}
 				beforeSingletonCreation(beanName);
 				boolean newSingleton = false;
 				boolean recordSuppressedExceptions = (this.suppressedExceptions == null);

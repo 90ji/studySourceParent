@@ -34,12 +34,10 @@
       <module name="springAspects" target="1.8" />
       <module name="springBeans" target="1.8" />
       <module name="springBeansWithoutException" target="1.8" />
-      <module name="springcontext" target="1.8" />
       <module name="springContext" target="1.8" />
       <module name="springContextSupport" target="1.8" />
       <module name="springCore" target="1.8" />
       <module name="springExpression" target="1.8" />
-      <module name="springInstrument" target="1.8" />
       <module name="springJdbc" target="1.8" />
       <module name="springJms" target="1.8" />
       <module name="springMessaging" target="1.8" />
