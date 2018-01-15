@@ -1096,6 +1096,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                 /**构造函数自动注入*/
                 return autowireConstructor(beanName, mbd, null, null);
             } else {
+                /**使用默认构造方法构造*/
                 return instantiateBean(beanName, mbd);
             }
         }
@@ -1179,8 +1180,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      * @return BeanWrapper for the new instance
      * @see #getBean(String, Object[])
      */
-    protected BeanWrapper instantiateUsingFactoryMethod(
-            String beanName, RootBeanDefinition mbd, Object[] explicitArgs) {
+    protected BeanWrapper instantiateUsingFactoryMethod(String beanName, RootBeanDefinition mbd, Object[] explicitArgs) {
 
         return new ConstructorResolver(this).instantiateUsingFactoryMethod(beanName, mbd, explicitArgs);
     }
@@ -1200,8 +1200,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      *                     or {@code null} if none (-> use constructor argument values from bean definition)
      * @return BeanWrapper for the new instance
      */
-    protected BeanWrapper autowireConstructor(
-            String beanName, RootBeanDefinition mbd, Constructor<?>[] ctors, Object[] explicitArgs) {
+    protected BeanWrapper autowireConstructor(String beanName, RootBeanDefinition mbd, Constructor<?>[] ctors/*null*/, Object[] explicitArgs/*null*/) {
 
         return new ConstructorResolver(this).autowireConstructor(beanName, mbd, ctors, explicitArgs);
     }
@@ -1219,8 +1218,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
         if (bw == null) {
             if (!pvs.isEmpty()) {
-                throw new BeanCreationException(
-                        mbd.getResourceDescription(), beanName, "Cannot apply property values to null instance");
+                throw new BeanCreationException(mbd.getResourceDescription(), beanName, "Cannot apply property values to null instance");
             } else {
                 // Skip property population phase for null instance.
                 return;
@@ -1248,8 +1246,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             return;
         }
 
-        if (mbd.getResolvedAutowireMode() == RootBeanDefinition.AUTOWIRE_BY_NAME ||
-                mbd.getResolvedAutowireMode() == RootBeanDefinition.AUTOWIRE_BY_TYPE) {
+        if (mbd.getResolvedAutowireMode() == RootBeanDefinition.AUTOWIRE_BY_NAME || mbd.getResolvedAutowireMode() == RootBeanDefinition.AUTOWIRE_BY_TYPE) {
             MutablePropertyValues newPvs = new MutablePropertyValues(pvs);
 
             // Add property values based on autowire by name if applicable.
@@ -1299,8 +1296,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      * @param bw       BeanWrapper from which we can obtain information about the bean
      * @param pvs      the PropertyValues to register wired objects with
      */
-    protected void autowireByName(
-            String beanName, AbstractBeanDefinition mbd, BeanWrapper bw, MutablePropertyValues pvs) {
+    protected void autowireByName(String beanName, AbstractBeanDefinition mbd, BeanWrapper bw, MutablePropertyValues pvs) {
 
         String[] propertyNames = unsatisfiedNonSimpleProperties(mbd, bw);
         for (String propertyName : propertyNames) {
@@ -1333,8 +1329,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      * @param bw       BeanWrapper from which we can obtain information about the bean
      * @param pvs      the PropertyValues to register wired objects with
      */
-    protected void autowireByType(
-            String beanName, AbstractBeanDefinition mbd, BeanWrapper bw, MutablePropertyValues pvs) {
+    protected void autowireByType(String beanName, AbstractBeanDefinition mbd, BeanWrapper bw, MutablePropertyValues pvs) {
 
         TypeConverter converter = getCustomTypeConverter();
         if (converter == null) {
