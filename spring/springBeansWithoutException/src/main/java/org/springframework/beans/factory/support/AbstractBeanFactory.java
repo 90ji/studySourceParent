@@ -1360,7 +1360,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
      * @return the resolved bean class (or {@code null} if none)
      * @throws CannotLoadBeanClassException if we failed to load the class
      */
-    protected Class<?> resolveBeanClass(final RootBeanDefinition mbd, String beanName, final Class<?>... typesToMatch)            throws CannotLoadBeanClassException {
+    protected Class<?> resolveBeanClass(final RootBeanDefinition mbd, String beanName, final Class<?>... typesToMatch) throws CannotLoadBeanClassException {
         try {
             if (mbd.hasBeanClass()) {
                 return mbd.getBeanClass();
@@ -1690,10 +1690,12 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
                 // Register a DisposableBean implementation that performs all destruction
                 // work for the given bean: DestructionAwareBeanPostProcessors,
                 // DisposableBean interface, custom destroy method.
-                registerDisposableBean(beanName,
-                        new DisposableBeanAdapter(bean, beanName, mbd, getBeanPostProcessors(), acc));
+                //单例模式下注册需要销毁的bean,此方法中处理实现DisposableBean的bean
+                //并且对所有的bean使用DestructionAwareBeanPostProcessors
+                registerDisposableBean(beanName, new DisposableBeanAdapter(bean, beanName, mbd, getBeanPostProcessors(), acc));
             } else {
                 // A bean with a custom scope...
+                //自定义scope的处理
                 Scope scope = this.scopes.get(mbd.getScope());
                 if (scope == null) {
                     throw new IllegalStateException("No Scope registered for scope name '" + mbd.getScope() + "'");

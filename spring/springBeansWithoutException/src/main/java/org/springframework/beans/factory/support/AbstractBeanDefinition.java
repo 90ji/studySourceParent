@@ -385,8 +385,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
             throw new IllegalStateException("No bean class specified on bean definition");
         }
         if (!(beanClassObject instanceof Class)) {
-            throw new IllegalStateException(
-                    "Bean class name [" + beanClassObject + "] has not been resolved into an actual Class");
+            throw new IllegalStateException("Bean class name [" + beanClassObject + "] has not been resolved into an actual Class");
         }
         return (Class<?>) beanClassObject;
     }
@@ -759,8 +758,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
      * Specify constructor argument values for this bean.
      */
     public void setConstructorArgumentValues(ConstructorArgumentValues constructorArgumentValues) {
-        this.constructorArgumentValues =
-                (constructorArgumentValues != null ? constructorArgumentValues : new ConstructorArgumentValues());
+        this.constructorArgumentValues = (constructorArgumentValues != null ? constructorArgumentValues : new ConstructorArgumentValues());
     }
 
     /**
@@ -971,8 +969,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
      */
     @Override
     public BeanDefinition getOriginatingBeanDefinition() {
-        return (this.resource instanceof BeanDefinitionResource ?
-                ((BeanDefinitionResource) this.resource).getBeanDefinition() : null);
+        return (this.resource instanceof BeanDefinitionResource ? ((BeanDefinitionResource) this.resource).getBeanDefinition() : null);
     }
 
     /**
@@ -982,9 +979,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
      */
     public void validate() throws BeanDefinitionValidationException {
         if (!getMethodOverrides().isEmpty() && getFactoryMethodName() != null) {
-            throw new BeanDefinitionValidationException(
-                    "Cannot combine static factory method with method overrides: " +
-                            "the static factory method must create the instance");
+            throw new BeanDefinitionValidationException("Cannot combine static factory method with method overrides: " + "the static factory method must create the instance");
         }
 
         if (hasBeanClass()) {

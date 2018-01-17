@@ -16,28 +16,7 @@
 
 package org.springframework.beans.factory.support;
 
-import java.beans.ConstructorProperties;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.springframework.beans.BeanMetadataElement;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.TypeConverter;
-import org.springframework.beans.TypeMismatchException;
+import org.springframework.beans.*;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.InjectionPoint;
@@ -49,11 +28,16 @@ import org.springframework.core.GenericTypeResolver;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.NamedThreadLocal;
 import org.springframework.core.ParameterNameDiscoverer;
-import org.springframework.util.ClassUtils;
-import org.springframework.util.MethodInvoker;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.ReflectionUtils;
-import org.springframework.util.StringUtils;
+import org.springframework.util.*;
+
+import java.beans.ConstructorProperties;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Member;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.util.*;
 
 /**
  * Delegate for resolving constructors and factory methods.
@@ -175,27 +159,33 @@ class ConstructorResolver {
                 if (constructorToUse != null && argsToUse.length > paramTypes.length) {
                     // Already found greedy constructor that can be satisfied ->
                     // do not look any further, there are only less greedy constructors left.
+                    //如果已经找到选用的构造函数或者需要的参数小于当前的构造方法参数的个数,则终止,因为已经按照参数个数降序排列
                     break;
                 }
                 if (paramTypes.length < minNrOfArgs) {
+                    //如果参数个数不相等则继续
                     continue;
                 }
 
                 ArgumentsHolder argsHolder;
                 if (resolvedValues != null) {
+                    //有参数则根据值构造对应参数类型的参数
                     try {
                         String[] paramNames = ConstructorPropertiesChecker.evaluate(candidate, paramTypes.length);
                         if (paramNames == null) {
+                            //获取参数名称探索器
                             ParameterNameDiscoverer pnd = this.beanFactory.getParameterNameDiscoverer();
                             if (pnd != null) {
+                                //获取指定构造方法的参数名称
                                 paramNames = pnd.getParameterNames(candidate);
                             }
                         }
+                        //根据名称和数据类型创建参数持有者
                         argsHolder = createArgumentArray(beanName, mbd, resolvedValues, bw, paramTypes, paramNames, getUserDeclaredConstructor(candidate), autowiring);
                     } catch (UnsatisfiedDependencyException ex) {
-                        if (this.beanFactory.logger.isTraceEnabled()) {
-                            this.beanFactory.logger.trace("Ignoring constructor [" + candidate + "] of bean '" + beanName + "': " + ex);
-                        }
+//                        if (this.beanFactory.logger.isTraceEnabled()) {
+//                            this.beanFactory.logger.trace("Ignoring constructor [" + candidate + "] of bean '" + beanName + "': " + ex);
+//                        }
                         // Swallow and try next constructor.
                         if (causes == null) {
                             causes = new LinkedList<UnsatisfiedDependencyException>();
@@ -208,11 +198,13 @@ class ConstructorResolver {
                     if (paramTypes.length != explicitArgs.length) {
                         continue;
                     }
+                    //构造方法没有方法的情况
                     argsHolder = new ArgumentsHolder(explicitArgs);
                 }
-
+                //探测是否有不确定性的构造方法存在,例如不同构造方法的参数为父子关系
                 int typeDiffWeight = (mbd.isLenientConstructorResolution() ? argsHolder.getTypeDifferenceWeight(paramTypes) : argsHolder.getAssignabilityWeight(paramTypes));
                 // Choose this constructor if it represents the closest match.
+                //如果它代表着当前最接近的匹配规则选择作为构造方法
                 if (typeDiffWeight < minTypeDiffWeight) {
                     constructorToUse = candidate;
                     argsHolderToUse = argsHolder;
@@ -240,8 +232,8 @@ class ConstructorResolver {
             } else if (ambiguousConstructors != null && !mbd.isLenientConstructorResolution()) {
                 throw new BeanCreationException(mbd.getResourceDescription(), beanName, "Ambiguous constructor matches found in bean '" + beanName + "' " + "(hint: specify index/type/name arguments for simple parameters to avoid type ambiguities): " + ambiguousConstructors);
             }
-
             if (explicitArgs == null) {
+                //将解析的构造方法加入缓存
                 argsHolderToUse.storeCache(mbd, constructorToUse);
             }
         }
@@ -261,7 +253,7 @@ class ConstructorResolver {
             } else {
                 beanInstance = this.beanFactory.getInstantiationStrategy().instantiate(mbd, beanName, this.beanFactory, constructorToUse, argsToUse);
             }
-
+            //将构建的实例加入BeanWrapper中
             bw.setBeanInstance(beanInstance);
             return bw;
         } catch (Throwable ex) {

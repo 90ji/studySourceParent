@@ -508,9 +508,9 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	}
 
 	public void destroySingletons() {
-		if (logger.isDebugEnabled()) {
-			logger.debug("Destroying singletons in " + this);
-		}
+//		if (logger.isDebugEnabled()) {
+//			logger.debug("Destroying singletons in " + this);
+//		}
 		synchronized (this.singletonObjects) {
 			this.singletonsCurrentlyInDestruction = true;
 		}
@@ -564,9 +564,9 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 		// Trigger destruction of dependent beans first...
 		Set<String> dependencies = this.dependentBeanMap.remove(beanName);
 		if (dependencies != null) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Retrieved dependent beans for bean '" + beanName + "': " + dependencies);
-			}
+//			if (logger.isDebugEnabled()) {
+//				logger.debug("Retrieved dependent beans for bean '" + beanName + "': " + dependencies);
+//			}
 			for (String dependentBeanName : dependencies) {
 				destroySingleton(dependentBeanName);
 			}
@@ -578,7 +578,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 				bean.destroy();
 			}
 			catch (Throwable ex) {
-				logger.error("Destroy method on bean with name '" + beanName + "' threw an exception", ex);
+//				logger.error("Destroy method on bean with name '" + beanName + "' threw an exception", ex);
 			}
 		}
 
