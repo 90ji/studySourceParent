@@ -1,6 +1,7 @@
 package com;
 
 import beans.MyTestBean;
+import beans.SpringContextUtil;
 import com.alibaba.fastjson.JSON;
 import org.junit.Test;
 import org.springframework.beans.factory.BeanFactory;
@@ -20,9 +21,11 @@ public class BootTest {
     @Test
     public void test01(){
         ApplicationContext ctx=new ClassPathXmlApplicationContext("classpath:application.xml");
-        MyTestBean myTestBean =(MyTestBean) ctx.getBean("myTestBean");
-        System.out.println(JSON.toJSONString(myTestBean));
-
+//        MyTestBean myTestBean =(MyTestBean) ctx.getBean("myTestBean");
+//        System.out.println(JSON.toJSONString(myTestBean));
+        ApplicationContext applicationContext = SpringContextUtil.getApplicationContext();
+        MyTestBean bean = SpringContextUtil.getBean(MyTestBean.class,"myTestBean");
+        System.out.println(JSON.toJSONString(bean));
     }
 
     @Test

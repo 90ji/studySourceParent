@@ -5,5 +5,7 @@
 
 
     <bean id="myTestBean" class="beans.MyTestBean"/>
+    <bean id="myBeanPostProcessor" class="beans.MyBeanPostProcessor"/>
+    <bean id="springContextUtil" class="beans.SpringContextUtil"/>
 
 </beans>

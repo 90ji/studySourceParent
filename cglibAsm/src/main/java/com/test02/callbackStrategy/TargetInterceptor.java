@@ -1,9 +1,9 @@
-package com.test01;
-
-import java.lang.reflect.Method;
+package com.test02.callbackStrategy;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
+
+import java.lang.reflect.Method;
 
 /**
  * 目标对象拦截器，实现MethodInterceptor

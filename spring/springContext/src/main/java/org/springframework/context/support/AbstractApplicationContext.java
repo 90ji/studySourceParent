@@ -685,12 +685,18 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
      */
     protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
         // Tell the internal bean factory to use the context's class loader etc.
+        //设置beanFactory的classloader为当前context的classLoader
         beanFactory.setBeanClassLoader(getClassLoader());
+        //设置beanFactory的表达式语言处理器
+        //默认可以使用#{bean.xxx}的形式来调用相关属性值
         beanFactory.setBeanExpressionResolver(new StandardBeanExpressionResolver(beanFactory.getBeanClassLoader()));
+        //为beanFactory增加了一个默认的propertyEditor,这个主要是对bean的属性等设置管理的一个工具
         beanFactory.addPropertyEditorRegistrar(new ResourceEditorRegistrar(this, getEnvironment()));
 
         // Configure the bean factory with context callbacks.
+        //添加BeanPostProcessor
         beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
+        //设置了几个忽略自动装配的接口
         beanFactory.ignoreDependencyInterface(EnvironmentAware.class);
         beanFactory.ignoreDependencyInterface(EmbeddedValueResolverAware.class);
         beanFactory.ignoreDependencyInterface(ResourceLoaderAware.class);
@@ -700,29 +706,34 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 
         // BeanFactory interface not registered as resolvable type in a plain factory.
         // MessageSource registered (and found for autowiring) as a bean.
+        //设置了几个自动装配的特殊规则
         beanFactory.registerResolvableDependency(BeanFactory.class, beanFactory);
         beanFactory.registerResolvableDependency(ResourceLoader.class, this);
         beanFactory.registerResolvableDependency(ApplicationEventPublisher.class, this);
         beanFactory.registerResolvableDependency(ApplicationContext.class, this);
 
         // Register early post-processor for detecting inner beans as ApplicationListeners.
+        //注册早期的后处理器来检测内部bean作为ApplicationListeners。
         beanFactory.addBeanPostProcessor(new ApplicationListenerDetector(this));
 
         // Detect a LoadTimeWeaver and prepare for weaving, if found.
-        if (beanFactory.containsBean(LOAD_TIME_WEAVER_BEAN_NAME)) {
+        // 增加对AspectJ的支持
+        if (beanFactory.containsBean(LOAD_TIME_WEAVER_BEAN_NAME/*loadTimeWeaver*/)) {
             beanFactory.addBeanPostProcessor(new LoadTimeWeaverAwareProcessor(beanFactory));
             // Set a temporary ClassLoader for type matching.
+            //设置类型匹配的临时ClassLoader
             beanFactory.setTempClassLoader(new ContextTypeMatchClassLoader(beanFactory.getBeanClassLoader()));
         }
 
         // Register default environment beans.
-        if (!beanFactory.containsLocalBean(ENVIRONMENT_BEAN_NAME)) {
+        //注册默认的系统环境bean
+        if (!beanFactory.containsLocalBean(ENVIRONMENT_BEAN_NAME/*environment*/)) {
             beanFactory.registerSingleton(ENVIRONMENT_BEAN_NAME, getEnvironment());
         }
-        if (!beanFactory.containsLocalBean(SYSTEM_PROPERTIES_BEAN_NAME)) {
+        if (!beanFactory.containsLocalBean(SYSTEM_PROPERTIES_BEAN_NAME/*systemProperties*/)) {
             beanFactory.registerSingleton(SYSTEM_PROPERTIES_BEAN_NAME, getEnvironment().getSystemProperties());
         }
-        if (!beanFactory.containsLocalBean(SYSTEM_ENVIRONMENT_BEAN_NAME)) {
+        if (!beanFactory.containsLocalBean(SYSTEM_ENVIRONMENT_BEAN_NAME/*systemEnvironment*/)) {
             beanFactory.registerSingleton(SYSTEM_ENVIRONMENT_BEAN_NAME, getEnvironment().getSystemEnvironment());
         }
     }
@@ -769,7 +780,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
      */
     protected void initMessageSource() {
         ConfigurableListableBeanFactory beanFactory = getBeanFactory();
-        if (beanFactory.containsLocalBean(MESSAGE_SOURCE_BEAN_NAME)) {
+        if (beanFactory.containsLocalBean(MESSAGE_SOURCE_BEAN_NAME/*messageSource*/)) {
+            //如果再配置中已经配置了messageSource,那么将messageSource提取并记录在this.messageSource中
             this.messageSource = beanFactory.getBean(MESSAGE_SOURCE_BEAN_NAME, MessageSource.class);
             // Make MessageSource aware of parent MessageSource.
             if (this.parent != null && this.messageSource instanceof HierarchicalMessageSource) {

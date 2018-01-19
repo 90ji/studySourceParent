@@ -221,6 +221,7 @@ abstract public class AbstractClassGenerator<T>
     /**
      * Set the strategy to use to create the bytecode from this generator.
      * By default an instance of {@see DefaultGeneratorStrategy} is used.
+     * 设置策略来使用这个生成器创建字节码。
      */
     public void setStrategy(GeneratorStrategy strategy) {
         if (strategy == null)

@@ -1,6 +1,7 @@
 package com.test01;
 
 import com.alibaba.fastjson.JSON;
+import com.test02.callbackStrategy.TargetResultFixed;
 import net.sf.cglib.core.KeyFactory;
 import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.CallbackFilter;

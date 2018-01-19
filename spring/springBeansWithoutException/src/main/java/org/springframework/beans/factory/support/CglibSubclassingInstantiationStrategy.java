@@ -126,6 +126,7 @@ public class CglibSubclassingInstantiationStrategy extends SimpleInstantiationSt
             }
             // SPR-10785: set callbacks directly on the instance instead of in the
             // enhanced class (via the Enhancer) in order to avoid memory leaks.
+            //SPR-10785：直接在实例上而不是在增强类中（通过增强器）设置回调，以避免内存泄漏。
             Factory factory = (Factory) instance;
             factory.setCallbacks(new Callback[]{NoOp.INSTANCE, new LookupOverrideMethodInterceptor(this.beanDefinition, this.owner), new ReplaceOverrideMethodInterceptor(this.beanDefinition, this.owner)});
             return instance;

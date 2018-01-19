@@ -1,4 +1,4 @@
-package com.test01;
+package com.test02.callbackStrategy;
 
 import net.sf.cglib.proxy.FixedValue;
 /**
