@@ -1,9 +1,10 @@
 package com.test02;
 
+import com.alibaba.fastjson.JSON;
 import com.test02.callbackStrategy.TargetInterceptor;
 import com.test02.callbackStrategy.TargetResultFixed;
 import com.test02.generatorStrategy.ClassLoaderAwareGeneratorStrategy;
-import com.test02.namingPolicy.SpringNamingPolicy;
+import com.test02.namingPolicy.QxzNamingPolicy;
 import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.CallbackFilter;
 import net.sf.cglib.proxy.Enhancer;
@@ -79,15 +80,18 @@ public class TestCglib {
 
 
     /**
+     * class com.test02.TargetObject$$EnhancerBySpringCGLIB$$b1e3ec63
      *
+     * class com.test02.TargetObject$$EnhancerByCGLIB$$b1e3ec63
      */
     @Test
     public void TestCGLib() {
         Enhancer enhancer = new Enhancer();
         //设置需要增强的类
         enhancer.setSuperclass(TargetObject.class);
+        enhancer.setCallback(new TargetInterceptor());
         //生成类的名字的策略
-//        enhancer.setNamingPolicy(SpringNamingPolicy.INSTANCE);
+        enhancer.setNamingPolicy(QxzNamingPolicy.INSTANCE);
         //设置策略来使用这个生成器创建字节码。
 //        enhancer.setStrategy(new ClassLoaderAwareGeneratorStrategy(getClassLoader()));
 //        //设置用于将生成的类的方法映射到特定回调索引的{@link CallbackFilter}。
@@ -95,7 +99,8 @@ public class TestCglib {
 //        //
 //        enhancer.setCallbackTypes(CALLBACK_TYPES);
         //生成代理类
-        Object o = enhancer.create();
+        TargetObject o = (TargetObject)enhancer.create();
+        System.out.println(o);
     }
     /**
      *
@@ -110,7 +115,7 @@ public class TestCglib {
         //
 //        enhancer.setCallbackTypes(CALLBACK_TYPES);
         //生成类的名字的策略
-        enhancer.setNamingPolicy(SpringNamingPolicy.INSTANCE);
+        enhancer.setNamingPolicy(QxzNamingPolicy.INSTANCE);
         //设置策略来使用这个生成器创建字节码。
         enhancer.setStrategy(new ClassLoaderAwareGeneratorStrategy(getClassLoader()));
         //生成代理类

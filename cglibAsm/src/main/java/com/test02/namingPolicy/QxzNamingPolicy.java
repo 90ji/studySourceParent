@@ -29,13 +29,13 @@ import net.sf.cglib.core.DefaultNamingPolicy;
  * @author Juergen Hoeller
  * @since 3.2.8
  */
-public class SpringNamingPolicy extends DefaultNamingPolicy {
+public class QxzNamingPolicy extends DefaultNamingPolicy {
 
-	public static final SpringNamingPolicy INSTANCE = new SpringNamingPolicy();
+	public static final QxzNamingPolicy INSTANCE = new QxzNamingPolicy();
 
 	@Override
 	protected String getTag() {
-		return "BySpringCGLIB";
+		return "ByQxzCGLIB";
 	}
 
 }
