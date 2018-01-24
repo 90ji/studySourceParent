@@ -2,6 +2,7 @@ package com.myTest.methodOverride;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Set;
  */
 public class MethodOverrides {
 
-    private Set<MethodOverride> overrides = new HashSet<>();
+    private final Set<MethodOverride> overrides = new LinkedHashSet<>(0);
 
     public MethodOverrides() {
     }
@@ -27,6 +28,7 @@ public class MethodOverrides {
         synchronized (this.overrides) {
             MethodOverride match = null;
             for (MethodOverride candidate : this.overrides) {
+                if (candidate == null) continue;
                 if (candidate.matches(method)) {
                     match = candidate;
                 }

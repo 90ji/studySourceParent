@@ -15,7 +15,7 @@ public class BaseBeanDefinition {
     }
 
     public MethodOverrides getMethodOverrides() {
-        return methodOverrides;
+        return this.methodOverrides;
     }
 
     public void setMethodOverrides(MethodOverrides methodOverrides) {
@@ -23,6 +23,6 @@ public class BaseBeanDefinition {
     }
 
     public Class getBeanClass() {
-        return beanClass;
+        return this.beanClass;
     }
 }

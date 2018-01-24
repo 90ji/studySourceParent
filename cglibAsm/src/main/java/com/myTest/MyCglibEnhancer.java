@@ -1,6 +1,6 @@
 package com.myTest;
 
-import com.myTest.bean.LookupBean;
+import com.myTest.bean.MethodReplacer;
 import com.myTest.bean.TargetBean;
 import com.myTest.generatorStrategy.ClassLoaderAwareGeneratorStrategy;
 import com.myTest.methodOverride.LookupOverride;
@@ -21,11 +21,14 @@ import java.lang.reflect.Method;
  * Description:
  */
 public class MyCglibEnhancer {
-
-    private static int i = 0;
+    /**
+     * 0--使用lookup-method
+     * 1--使用replace-method
+     */
+    private static int mode = 1;
     /**
      * lookup-method 是用来静态替换对应的方法
-     *
+     * <p>
      * replaced-method 是用来直接替换某方法的实现逻辑
      */
     private static final Class<?>[] CALLBACK_TYPES = new Class<?>[]{NoOp.class, LookupOverrideMethodInterceptor.class, ReplaceOverrideMethodInterceptor.class};
@@ -36,61 +39,66 @@ public class MyCglibEnhancer {
 
     @Test
     public void mains() throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
-        BaseBeanDefinition beanDefinition = new BaseBeanDefinition();
-        beanDefinition.setBeanClass(TargetBean.class);
-        MethodOverrides methodOverrides = createMethodOverrides();
-        beanDefinition.setMethodOverrides(methodOverrides);
-        System.out.println("========================");
+        /**
+         * 0--使用lookup-method
+         * 1--使用replace-method
+         * 其他--不改变原有逻辑
+         */
+        mode = 1;
+        Method doSomethingMethod = TargetBean.class.getMethod("doSomething", Integer.class);
+
+        //装配一个简单的BaseBeanDefinition
+        BaseBeanDefinition beanDefinition = getBaseBeanDefinition(doSomethingMethod);
+
+        System.out.println("============= start create ============");
+        //开始创建新的对象
+        Object instance = createNewObject(beanDefinition);
+        System.out.println("============= end create ===========");
+
+        //使用新对象调用原有方法
+        Object invoke2 = doSomethingMethod.invoke(instance, 1);
+        System.out.println("结果:" + invoke2);
+    }
+
+    private Object createNewObject(BaseBeanDefinition beanDefinition) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         Class<?> clazz = new MyCglibEnhancer().createEnhancedSubclass(beanDefinition);
         Constructor<?> ctor = clazz.getDeclaredConstructor();
         ctor.setAccessible(true);
         Object instance = ctor.newInstance();
         Factory factory = (Factory) instance;
         factory.setCallbacks(new Callback[]{NoOp.INSTANCE, new LookupOverrideMethodInterceptor(beanDefinition), new ReplaceOverrideMethodInterceptor(beanDefinition)});
-
-        Method[] methods = clazz.getDeclaredMethods();
-        for (Method method : methods) {
-            if (!method.getName().equals("doSomething")){
-                continue;
-            }
-            Object invoke = method.invoke(instance, 1);
-            System.out.println(invoke);
-        }
+        return instance;
     }
+
+    private BaseBeanDefinition getBaseBeanDefinition(Method doSomethingMethod) {
+        BaseBeanDefinition beanDefinition = new BaseBeanDefinition();
+        beanDefinition.setBeanClass(TargetBean.class);
+        MethodOverrides methodOverrides = createMethodOverrides(doSomethingMethod);
+        beanDefinition.setMethodOverrides(methodOverrides);
+        return beanDefinition;
+    }
+
     @Test
-    public void test(){
+    public void test() {
         Method[] methods = TargetBean.class.getDeclaredMethods();
         System.out.println(methods);
     }
 
-    private static MethodOverrides createMethodOverrides() {
+    private static MethodOverrides createMethodOverrides(Method method) {
         MethodOverrides methodOverrides = new MethodOverrides();
-        MethodOverride methodOverride = createMethodOverride();
+        MethodOverride methodOverride = createMethodOverride(method);
         methodOverrides.addOverride(methodOverride);
         return methodOverrides;
     }
 
-    private static MethodOverride createMethodOverride() {
-        if (i==0){
-            return new LookupOverride(getTestLookupOverrideMethod(),"com.myTest.bean.TargetBean");
-        }else if (i==1){
-            return new ReplaceOverride(getTestReplaceOverrideMethod(),"com.myTest.bean.TargetBean");
-        }else {
+    private static MethodOverride createMethodOverride(Method method) {
+        if (mode == 0) {
+            return new LookupOverride(method.getName(), "com.myTest.bean.LookupBean");
+        } else if (mode == 1) {
+            return new ReplaceOverride(method.getName(), "com.myTest.bean.ReplaceBean");
+        } else {
             return null;
         }
-    }
-
-    private static String getTestLookupOverrideMethod() {
-        Method[] methods = LookupBean.class.getDeclaredMethods();
-        return methods[0].getName();
-    }
-//    private static Method getTestLookupOverrideMethod() {
-//        Method[] methods = LookupBean.class.getDeclaredMethods();
-//        return methods[0];
-//    }
-
-    private static String getTestReplaceOverrideMethod() {
-        return "com.myTest.bean.ReplaceBean";
     }
 
     private Class<?> createEnhancedSubclass(BaseBeanDefinition beanDefinition) {
@@ -100,7 +108,7 @@ public class MyCglibEnhancer {
         //设置命名策略
         enhancer.setNamingPolicy(QxzNamingPolicy.INSTANCE);
         //设置classloader
-//        enhancer.setStrategy(new ClassLoaderAwareGeneratorStrategy(getClassLoader()));
+        enhancer.setStrategy(new ClassLoaderAwareGeneratorStrategy(getClassLoader()));
         //构建过滤规则
         enhancer.setCallbackFilter(new MyMethodOverrideCallbackFilter(beanDefinition));
         //设置增强的方法
@@ -186,8 +194,10 @@ public class MyCglibEnhancer {
 
         @Override
         public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-            LookupOverride override = (LookupOverride)getBaseBeanDefinition().getMethodOverrides().getOverride(method);
-            return proxy.invoke(obj,args);
+            LookupOverride override = (LookupOverride) getBaseBeanDefinition().getMethodOverrides().getOverride(method);
+            Class<?> clazz = Class.forName(override.getBeanName());
+            Method method1 = clazz.getMethod(method.getName(), method.getParameterTypes());
+            return method1.invoke(clazz.newInstance(), args);
         }
     }
 
@@ -202,7 +212,9 @@ public class MyCglibEnhancer {
 
         @Override
         public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-            return null;
+            ReplaceOverride ro = (ReplaceOverride) getBaseBeanDefinition().getMethodOverrides().getOverride(method);
+            MethodReplacer o = (MethodReplacer) Class.forName(ro.getMethodReplacerBeanName()).newInstance();
+            return o.reimplement(obj, method, args);
         }
     }
 }
