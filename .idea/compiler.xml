@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="cglibAsm" />
+        <module name="dbcp2" />
         <module name="springAop" />
         <module name="springAspects" />
         <module name="springBeans" />
@@ -29,6 +30,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="cglibAsm" target="1.8" />
+      <module name="dbcp2" target="1.8" />
       <module name="spring" target="1.8" />
       <module name="springAop" target="1.8" />
       <module name="springAspects" target="1.8" />

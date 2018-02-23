@@ -59,5 +59,6 @@
     <modules>
         <module>cglibAsm</module>
         <module>spring</module>
+        <module>dbcp2</module>
     </modules>
 </project>
