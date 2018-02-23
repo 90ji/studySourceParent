@@ -74,13 +74,15 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
 
     static {
         // Attempt to prevent deadlocks - see DBCP - 272
-        DriverManager.getDrivers();
+        DriverManager.getDrivers();//尝试防止死锁
         try {
             // Load classes now to prevent AccessControlExceptions later
             // A number of classes are loaded when getConnection() is called
             // but the following classes are not loaded and therefore require
             // explicit loading.
-            if (Utils.IS_SECURITY_ENABLED) {
+
+            //现在加载类以防止AccessControlExceptions稍后调用getConnection()时会加载许多类，但以下类未加载，因此需要显式加载。
+            if (Utils.IS_SECURITY_ENABLED) {//false
                 final ClassLoader loader = BasicDataSource.class.getClassLoader();
                 final String dbcpPackageName = BasicDataSource.class.getPackage().getName();
                 loader.loadClass(dbcpPackageName + ".BasicDataSource$PaGetConnection");
@@ -2043,22 +2045,24 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
             if (dataSource != null) {
                 return dataSource;
             }
-
+            // Java管理扩展的注册
             jmxRegister();
 
             // create factory which returns raw physical connections
+            // 创建返回原始物理连接的工厂
             final ConnectionFactory driverConnectionFactory = createConnectionFactory();
 
             // Set up the poolable connection factory
+            // 建立可连接的连接工厂
             boolean success = false;
             PoolableConnectionFactory poolableConnectionFactory;
             try {
                 poolableConnectionFactory = createPoolableConnectionFactory(
                         driverConnectionFactory);
                 poolableConnectionFactory.setPoolStatements(
-                        poolPreparedStatements);
+                        poolPreparedStatements/*false*/);
                 poolableConnectionFactory.setMaxOpenPreparedStatements(
-                        maxOpenPreparedStatements);
+                        maxOpenPreparedStatements/*-1*/);
                 success = true;
             } catch (final SQLException se) {
                 throw se;
@@ -2070,10 +2074,12 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
 
             if (success) {
                 // create a pool for our connections
+                // 为我们的连接创建一个池
                 createConnectionPool(poolableConnectionFactory);
             }
 
             // Create the pooling data source to manage connections
+            // 创建池化数据源来管理连接
             DataSource newDataSource;
             success = false;
             try {
@@ -2093,6 +2099,7 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
             }
 
             // If initialSize > 0, preload the pool
+            // 如果initialSize> 0，则预加载该池
             try {
                 for (int i = 0 ; i < initialSize ; i++) {
                     connectionPool.addObject();
@@ -2103,6 +2110,7 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
             }
 
             // If timeBetweenEvictionRunsMillis > 0, start the pool's evictor task
+            // 如果timeBetweenEvictionRunsMillis> 0，则启动池的逐出器任务
             startPoolMaintenance();
 
             dataSource = newDataSource;
@@ -2165,7 +2173,7 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
                     // respect the ContextClassLoader
                     // N.B. This cast may cause ClassCastException which is handled below
                     driverToUse = (Driver) driverFromCCL.getConstructor().newInstance();
-                    if (!driverToUse.acceptsURL(url)) {
+                    if (!driverToUse.acceptsURL(url)) {// NonRegisteringDriver
                         throw new SQLException("No suitable driver", "08001");
                     }
                 }
@@ -2284,6 +2292,8 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
      * Creates the actual data source instance.  This method only exists so
      * that subclasses can replace the implementation class.
      *
+     * 创建实际的数据源实例。 这种方法只存在，以便子类可以替换实现类。
+     *
      * @throws SQLException if unable to create a datasource instance
      */
     protected DataSource createDataSourceInstance() throws SQLException {
@@ -2295,6 +2305,8 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
     /**
      * Creates the PoolableConnectionFactory and attaches it to the connection pool.  This method only exists
      * so subclasses can replace the default implementation.
+     *
+     * 创建PoolableConnectionFactory并将其附加到连接池。 此方法只存在，以便子类可以替换默认实现。
      *
      * @param driverConnectionFactory JDBC connection factory
      * @throws SQLException if an error occurs creating the PoolableConnectionFactory
@@ -2360,10 +2372,12 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
 
     private void jmxRegister() {
         // Return immediately if this DataSource has already been registered
+        // 如果此DataSource已被注册，立即返回
         if (registeredJmxName != null) {
             return;
         }
         // Return immediately if no JMX name has been specified
+        // 如果没有指定JMX名称，立即返回
         final String requestedName = getJmxName();
         if (requestedName == null) {
             return;
