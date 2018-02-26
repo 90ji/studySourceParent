@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/cglibAsm/cglibAsm.iml" filepath="$PROJECT_DIR$/cglibAsm/cglibAsm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/commonsPool2/commonsPool2.iml" filepath="$PROJECT_DIR$/commonsPool2/commonsPool2.iml" />
       <module fileurl="file://$PROJECT_DIR$/dbcp2/dbcp2.iml" filepath="$PROJECT_DIR$/dbcp2/dbcp2.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/spring.iml" filepath="$PROJECT_DIR$/spring/spring.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/springAop/springAop.iml" filepath="$PROJECT_DIR$/spring/springAop/springAop.iml" />
