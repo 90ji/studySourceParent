@@ -21,9 +21,10 @@ import org.apache.commons.pool2.SwallowedExceptionListener;
 
 /**
  * Class for logging swallowed exceptions.
+ *
  * @since 2.0
  */
-public class SwallowedExceptionLogger implements SwallowedExceptionListener{
+public class SwallowedExceptionLogger implements SwallowedExceptionListener {
 
     private final Log log;
     private final boolean logExpiredConnections;
@@ -42,7 +43,7 @@ public class SwallowedExceptionLogger implements SwallowedExceptionListener{
      * Create a SwallowedExceptionLogger with the given logger and expired
      * connection logging property.
      *
-     * @param log logger
+     * @param log                   logger
      * @param logExpiredConnections false suppresses logging of expired connection events
      */
     public SwallowedExceptionLogger(final Log log, final boolean logExpiredConnections) {
@@ -53,8 +54,7 @@ public class SwallowedExceptionLogger implements SwallowedExceptionListener{
     @Override
     public void onSwallowException(final Exception e) {
         if (logExpiredConnections || !(e instanceof LifetimeExceededException)) {
-            log.warn(Utils.getMessage(
-                    "swallowedExceptionLogger.onSwallowedException"), e);
+            log.warn(Utils.getMessage("swallowedExceptionLogger.onSwallowedException"), e);
         }
     }
 }

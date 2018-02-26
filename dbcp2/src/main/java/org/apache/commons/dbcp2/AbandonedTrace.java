@@ -27,7 +27,7 @@ import org.apache.commons.pool2.TrackedUse;
 /**
  * Tracks db connection usage for recovering and reporting
  * abandoned db connections.
- *
+ * <p>
  * The JDBC Connection, Statement, and ResultSet classes
  * extend this class.
  *
@@ -36,9 +36,13 @@ import org.apache.commons.pool2.TrackedUse;
  */
 public class AbandonedTrace implements TrackedUse {
 
-    /** A list of objects created by children of this object */
+    /**
+     * A list of objects created by children of this object
+     */
     private final List<WeakReference<AbandonedTrace>> traceList = new ArrayList<>();
-    /** Last time this connection was used */
+    /**
+     * Last time this connection was used
+     */
     private volatile long lastUsed = 0;
 
     /**
@@ -114,7 +118,7 @@ public class AbandonedTrace implements TrackedUse {
      * object.
      */
     protected void clearTrace() {
-        synchronized(this.traceList) {
+        synchronized (this.traceList) {
             this.traceList.clear();
         }
     }
@@ -151,7 +155,7 @@ public class AbandonedTrace implements TrackedUse {
      * @param trace AbandonedTrace object to remove
      */
     protected void removeTrace(final AbandonedTrace trace) {
-        synchronized(this.traceList) {
+        synchronized (this.traceList) {
             final Iterator<WeakReference<AbandonedTrace>> iter = traceList.iterator();
             while (iter.hasNext()) {
                 final WeakReference<AbandonedTrace> ref = iter.next();

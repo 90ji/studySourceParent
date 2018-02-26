@@ -50,8 +50,8 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
  * properties with the following exceptions:</p>
  * <ul>
  * <li><code>connectionInitSqls</code> must be passed to this factory as a
- *     single String using semi-colon to delimit the statements whereas
- *     <code>BasicDataSource</code> requires a collection of Strings.</li>
+ * single String using semi-colon to delimit the statements whereas
+ * <code>BasicDataSource</code> requires a collection of Strings.</li>
  * </ul>
  *
  * @author Craig R. McClanahan
@@ -66,7 +66,7 @@ public class BasicDataSourceFactory implements ObjectFactory {
     private static final String PROP_DEFAULTREADONLY = "defaultReadOnly";
     private static final String PROP_DEFAULTTRANSACTIONISOLATION = "defaultTransactionIsolation";
     private static final String PROP_DEFAULTCATALOG = "defaultCatalog";
-    private static final String PROP_CACHESTATE ="cacheState";
+    private static final String PROP_CACHESTATE = "cacheState";
     private static final String PROP_DRIVERCLASSNAME = "driverClassName";
     private static final String PROP_LIFO = "lifo";
     private static final String PROP_MAXTOTAL = "maxTotal";
@@ -135,50 +135,50 @@ public class BasicDataSourceFactory implements ObjectFactory {
     private static final String SILENTPROP_AUTH = "auth";
 
     private static final String[] ALL_PROPERTIES = {
-        PROP_DEFAULTAUTOCOMMIT,
-        PROP_DEFAULTREADONLY,
-        PROP_DEFAULTTRANSACTIONISOLATION,
-        PROP_DEFAULTCATALOG,
-        PROP_CACHESTATE,
-        PROP_DRIVERCLASSNAME,
-        PROP_LIFO,
-        PROP_MAXTOTAL,
-        PROP_MAXIDLE,
-        PROP_MINIDLE,
-        PROP_INITIALSIZE,
-        PROP_MAXWAITMILLIS,
-        PROP_TESTONCREATE,
-        PROP_TESTONBORROW,
-        PROP_TESTONRETURN,
-        PROP_TIMEBETWEENEVICTIONRUNSMILLIS,
-        PROP_NUMTESTSPEREVICTIONRUN,
-        PROP_MINEVICTABLEIDLETIMEMILLIS,
-        PROP_SOFTMINEVICTABLEIDLETIMEMILLIS,
-        PROP_EVICTIONPOLICYCLASSNAME,
-        PROP_TESTWHILEIDLE,
-        PROP_PASSWORD,
-        PROP_URL,
-        PROP_USERNAME,
-        PROP_VALIDATIONQUERY,
-        PROP_VALIDATIONQUERY_TIMEOUT,
-        PROP_CONNECTIONINITSQLS,
-        PROP_ACCESSTOUNDERLYINGCONNECTIONALLOWED,
-        PROP_REMOVEABANDONEDONBORROW,
-        PROP_REMOVEABANDONEDONMAINTENANCE,
-        PROP_REMOVEABANDONEDTIMEOUT,
-        PROP_LOGABANDONED,
-        PROP_ABANDONEDUSAGETRACKING,
-        PROP_POOLPREPAREDSTATEMENTS,
-        PROP_MAXOPENPREPAREDSTATEMENTS,
-        PROP_CONNECTIONPROPERTIES,
-        PROP_MAXCONNLIFETIMEMILLIS,
-        PROP_LOGEXPIREDCONNECTIONS,
-        PROP_ROLLBACK_ON_RETURN,
-        PROP_ENABLE_AUTOCOMMIT_ON_RETURN,
-        PROP_DEFAULT_QUERYTIMEOUT,
-        PROP_FASTFAIL_VALIDATION,
-        PROP_DISCONNECTION_SQL_CODES,
-        PROP_JMX_NAME
+            PROP_DEFAULTAUTOCOMMIT,
+            PROP_DEFAULTREADONLY,
+            PROP_DEFAULTTRANSACTIONISOLATION,
+            PROP_DEFAULTCATALOG,
+            PROP_CACHESTATE,
+            PROP_DRIVERCLASSNAME,
+            PROP_LIFO,
+            PROP_MAXTOTAL,
+            PROP_MAXIDLE,
+            PROP_MINIDLE,
+            PROP_INITIALSIZE,
+            PROP_MAXWAITMILLIS,
+            PROP_TESTONCREATE,
+            PROP_TESTONBORROW,
+            PROP_TESTONRETURN,
+            PROP_TIMEBETWEENEVICTIONRUNSMILLIS,
+            PROP_NUMTESTSPEREVICTIONRUN,
+            PROP_MINEVICTABLEIDLETIMEMILLIS,
+            PROP_SOFTMINEVICTABLEIDLETIMEMILLIS,
+            PROP_EVICTIONPOLICYCLASSNAME,
+            PROP_TESTWHILEIDLE,
+            PROP_PASSWORD,
+            PROP_URL,
+            PROP_USERNAME,
+            PROP_VALIDATIONQUERY,
+            PROP_VALIDATIONQUERY_TIMEOUT,
+            PROP_CONNECTIONINITSQLS,
+            PROP_ACCESSTOUNDERLYINGCONNECTIONALLOWED,
+            PROP_REMOVEABANDONEDONBORROW,
+            PROP_REMOVEABANDONEDONMAINTENANCE,
+            PROP_REMOVEABANDONEDTIMEOUT,
+            PROP_LOGABANDONED,
+            PROP_ABANDONEDUSAGETRACKING,
+            PROP_POOLPREPAREDSTATEMENTS,
+            PROP_MAXOPENPREPAREDSTATEMENTS,
+            PROP_CONNECTIONPROPERTIES,
+            PROP_MAXCONNLIFETIMEMILLIS,
+            PROP_LOGEXPIREDCONNECTIONS,
+            PROP_ROLLBACK_ON_RETURN,
+            PROP_ENABLE_AUTOCOMMIT_ON_RETURN,
+            PROP_DEFAULT_QUERYTIMEOUT,
+            PROP_FASTFAIL_VALIDATION,
+            PROP_DISCONNECTION_SQL_CODES,
+            PROP_JMX_NAME
     };
 
     /**
@@ -189,21 +189,9 @@ public class BasicDataSourceFactory implements ObjectFactory {
     private static final Map<String, String> NUPROP_WARNTEXT = new LinkedHashMap<>();
 
     static {
-        NUPROP_WARNTEXT.put(
-                NUPROP_MAXACTIVE,
-                "Property " + NUPROP_MAXACTIVE + " is not used in DBCP2, use " + PROP_MAXTOTAL + " instead. "
-                        + PROP_MAXTOTAL + " default value is " + GenericObjectPoolConfig.DEFAULT_MAX_TOTAL+".");
-        NUPROP_WARNTEXT.put(
-                NUPROP_REMOVEABANDONED,
-                "Property " + NUPROP_REMOVEABANDONED + " is not used in DBCP2,"
-                        + " use one or both of "
-                        + PROP_REMOVEABANDONEDONBORROW + " or " + PROP_REMOVEABANDONEDONMAINTENANCE + " instead. "
-                        + "Both have default value set to false.");
-        NUPROP_WARNTEXT.put(
-                NUPROP_MAXWAIT,
-                "Property " + NUPROP_MAXWAIT + " is not used in DBCP2"
-                        + " , use " + PROP_MAXWAITMILLIS + " instead. "
-                        + PROP_MAXWAITMILLIS + " default value is " + BaseObjectPoolConfig.DEFAULT_MAX_WAIT_MILLIS+".");
+        NUPROP_WARNTEXT.put(NUPROP_MAXACTIVE, "Property " + NUPROP_MAXACTIVE + " is not used in DBCP2, use " + PROP_MAXTOTAL + " instead. " + PROP_MAXTOTAL + " default value is " + GenericObjectPoolConfig.DEFAULT_MAX_TOTAL + ".");
+        NUPROP_WARNTEXT.put(NUPROP_REMOVEABANDONED, "Property " + NUPROP_REMOVEABANDONED + " is not used in DBCP2," + " use one or both of " + PROP_REMOVEABANDONEDONBORROW + " or " + PROP_REMOVEABANDONEDONMAINTENANCE + " instead. " + "Both have default value set to false.");
+        NUPROP_WARNTEXT.put(NUPROP_MAXWAIT, "Property " + NUPROP_MAXWAIT + " is not used in DBCP2" + " , use " + PROP_MAXWAITMILLIS + " instead. " + PROP_MAXWAITMILLIS + " default value is " + BaseObjectPoolConfig.DEFAULT_MAX_WAIT_MILLIS + ".");
     }
 
     /**
@@ -227,20 +215,19 @@ public class BasicDataSourceFactory implements ObjectFactory {
      * <p>Create and return a new <code>BasicDataSource</code> instance.  If no
      * instance can be created, return <code>null</code> instead.</p>
      *
-     * @param obj The possibly null object containing location or
-     *  reference information that can be used in creating an object
-     * @param name The name of this object relative to <code>nameCtx</code>
-     * @param nameCtx The context relative to which the <code>name</code>
-     *  parameter is specified, or <code>null</code> if <code>name</code>
-     *  is relative to the default initial context
+     * @param obj         The possibly null object containing location or
+     *                    reference information that can be used in creating an object
+     * @param name        The name of this object relative to <code>nameCtx</code>
+     * @param nameCtx     The context relative to which the <code>name</code>
+     *                    parameter is specified, or <code>null</code> if <code>name</code>
+     *                    is relative to the default initial context
      * @param environment The possibly null environment that is used in
-     *  creating this object
-     *
+     *                    creating this object
      * @throws Exception if an exception occurs creating the instance
      */
     @Override
-    public Object getObjectInstance(final Object obj, final Name name, final Context nameCtx, final Hashtable<?,?> environment)
-        throws Exception {
+    public Object getObjectInstance(final Object obj, final Name name, final Context nameCtx, final Hashtable<?, ?> environment)
+            throws Exception {
 
         // We only know how to deal with <code>javax.naming.Reference</code>s
         // that specify a class name of "javax.sql.DataSource"
@@ -279,27 +266,21 @@ public class BasicDataSourceFactory implements ObjectFactory {
      * Collects warnings and info messages.  Warnings are generated when an obsolete
      * property is set.  Unknown properties generate info messages.
      *
-     * @param ref Reference to check properties of
-     * @param name Name provided to getObject
-     * @param warnings container for warning messages
+     * @param ref          Reference to check properties of
+     * @param name         Name provided to getObject
+     * @param warnings     container for warning messages
      * @param infoMessages container for info messages
      */
-    private void validatePropertyNames(final Reference ref, final Name name, final List<String> warnings,
-                                      final List<String> infoMessages) {
+    private void validatePropertyNames(final Reference ref, final Name name, final List<String> warnings, final List<String> infoMessages) {
         final List<String> allPropsAsList = Arrays.asList(ALL_PROPERTIES);
         final String nameString = name != null ? "Name = " + name.toString() + " " : "";
-        if (NUPROP_WARNTEXT!=null && !NUPROP_WARNTEXT.keySet().isEmpty()) {
+        if (NUPROP_WARNTEXT != null && !NUPROP_WARNTEXT.keySet().isEmpty()) {
             for (final String propertyName : NUPROP_WARNTEXT.keySet()) {
                 final RefAddr ra = ref.get(propertyName);
                 if (ra != null && !allPropsAsList.contains(ra.getType())) {
                     final StringBuilder stringBuilder = new StringBuilder(nameString);
                     final String propertyValue = ra.getContent().toString();
-                    stringBuilder.append(NUPROP_WARNTEXT.get(propertyName))
-                            .append(" You have set value of \"")
-                            .append(propertyValue)
-                            .append("\" for \"")
-                            .append(propertyName)
-                            .append("\" property, which is being ignored.");
+                    stringBuilder.append(NUPROP_WARNTEXT.get(propertyName)).append(" You have set value of \"").append(propertyValue).append("\" for \"").append(propertyName).append("\" property, which is being ignored.");
                     warnings.add(stringBuilder.toString());
                 }
             }
@@ -311,17 +292,10 @@ public class BasicDataSourceFactory implements ObjectFactory {
             final String propertyName = ra.getType();
             // If property name is not in the properties list, we haven't warned on it
             // and it is not in the "silent" list, tell user we are ignoring it.
-            if (!(allPropsAsList.contains(propertyName)
-                    || NUPROP_WARNTEXT.keySet().contains(propertyName)
-                    || SILENT_PROPERTIES.contains(propertyName))) {
+            if (!(allPropsAsList.contains(propertyName) || NUPROP_WARNTEXT.keySet().contains(propertyName) || SILENT_PROPERTIES.contains(propertyName))) {
                 final String propertyValue = ra.getContent().toString();
                 final StringBuilder stringBuilder = new StringBuilder(nameString);
-                stringBuilder.append("Ignoring unknown property: ")
-                        .append("value of \"")
-                        .append(propertyValue)
-                        .append("\" for \"")
-                        .append(propertyName)
-                        .append("\" property");
+                stringBuilder.append("Ignoring unknown property: ").append("value of \"").append(propertyValue).append("\" for \"").append(propertyName).append("\" property");
                 infoMessages.add(stringBuilder.toString());
             }
         }
@@ -353,20 +327,15 @@ public class BasicDataSourceFactory implements ObjectFactory {
             int level = PoolableConnectionFactory.UNKNOWN_TRANSACTIONISOLATION;
             if ("NONE".equalsIgnoreCase(value)) {
                 level = Connection.TRANSACTION_NONE;//0
-            }
-            else if ("READ_COMMITTED".equalsIgnoreCase(value)) {
+            } else if ("READ_COMMITTED".equalsIgnoreCase(value)) {
                 level = Connection.TRANSACTION_READ_COMMITTED;//2
-            }
-            else if ("READ_UNCOMMITTED".equalsIgnoreCase(value)) {
+            } else if ("READ_UNCOMMITTED".equalsIgnoreCase(value)) {
                 level = Connection.TRANSACTION_READ_UNCOMMITTED;//1
-            }
-            else if ("REPEATABLE_READ".equalsIgnoreCase(value)) {
+            } else if ("REPEATABLE_READ".equalsIgnoreCase(value)) {
                 level = Connection.TRANSACTION_REPEATABLE_READ;//4
-            }
-            else if ("SERIALIZABLE".equalsIgnoreCase(value)) {
+            } else if ("SERIALIZABLE".equalsIgnoreCase(value)) {
                 level = Connection.TRANSACTION_SERIALIZABLE;//8
-            }
-            else {
+            } else {
                 try {
                     level = Integer.parseInt(value);
                 } catch (final NumberFormatException e) {
@@ -541,12 +510,12 @@ public class BasicDataSourceFactory implements ObjectFactory {
 
         value = properties.getProperty(PROP_CONNECTIONPROPERTIES);//connectionProperties
         if (value != null) {
-          final Properties p = getProperties(value);
-          final Enumeration<?> e = p.propertyNames();
-          while (e.hasMoreElements()) {
-            final String propertyName = (String) e.nextElement();
-            dataSource.addConnectionProperty(propertyName, p.getProperty(propertyName));
-          }
+            final Properties p = getProperties(value);
+            final Enumeration<?> e = p.propertyNames();
+            while (e.hasMoreElements()) {
+                final String propertyName = (String) e.nextElement();
+                dataSource.addConnectionProperty(propertyName, p.getProperty(propertyName));
+            }
         }
 
         value = properties.getProperty(PROP_MAXCONNLIFETIMEMILLIS);//maxConnLifetimeMillis
@@ -601,22 +570,23 @@ public class BasicDataSourceFactory implements ObjectFactory {
 
     /**
      * <p>Parse properties from the string. Format of the string must be [propertyName=property;]*<p>
+     *
      * @param propText
      * @return Properties
      * @throws Exception
      */
     private static Properties getProperties(final String propText) throws Exception {
-      final Properties p = new Properties();
-      if (propText != null) {
-        p.load(new ByteArrayInputStream(
-                propText.replace(';', '\n').getBytes(StandardCharsets.ISO_8859_1)));
-      }
-      return p;
+        final Properties p = new Properties();
+        if (propText != null) {
+            p.load(new ByteArrayInputStream(propText.replace(';', '\n').getBytes(StandardCharsets.ISO_8859_1)));
+        }
+        return p;
     }
 
     /**
      * Parse list of property values from a delimited string
-     * @param value delimited list of values
+     *
+     * @param value     delimited list of values
      * @param delimiter character used to separate values in the list
      * @return String Collection of values
      */

@@ -41,11 +41,9 @@ import org.apache.commons.pool2.impl.DefaultPooledObject;
  * @author John D. McNally
  * @since 2.0
  */
-class PooledConnectionImpl
-        implements PooledConnection, KeyedPooledObjectFactory<PStmtKeyCPDS, PoolablePreparedStatement<PStmtKeyCPDS>> {
+class PooledConnectionImpl implements PooledConnection, KeyedPooledObjectFactory<PStmtKeyCPDS, PoolablePreparedStatement<PStmtKeyCPDS>> {
 
-    private static final String CLOSED
-            = "Attempted to use PooledConnection after closed() was called.";
+    private static final String CLOSED = "Attempted to use PooledConnection after closed() was called.";
 
     /**
      * The JDBC database connection that represents the physical db connection.
@@ -70,15 +68,16 @@ class PooledConnectionImpl
     /**
      * StatementEventListeners
      */
-    private final Vector<StatementEventListener> statementEventListeners =
-            new Vector<>();
+    private final Vector<StatementEventListener> statementEventListeners = new Vector<>();
 
     /**
      * flag set to true, once close() is called.
      */
     private boolean isClosed;
 
-    /** My pool of {@link PreparedStatement}s. */
+    /**
+     * My pool of {@link PreparedStatement}s.
+     */
     private KeyedObjectPool<PStmtKeyCPDS, PoolablePreparedStatement<PStmtKeyCPDS>> pstmtPool = null;
 
     /**
@@ -88,6 +87,7 @@ class PooledConnectionImpl
 
     /**
      * Wrap the real connection.
+     *
      * @param connection the connection to be wrapped
      */
     PooledConnectionImpl(final Connection connection) {
@@ -101,8 +101,7 @@ class PooledConnectionImpl
         isClosed = false;
     }
 
-    public void setStatementPool(
-            final KeyedObjectPool<PStmtKeyCPDS, PoolablePreparedStatement<PStmtKeyCPDS>> statementPool) {
+    public void setStatementPool(final KeyedObjectPool<PStmtKeyCPDS, PoolablePreparedStatement<PStmtKeyCPDS>> statementPool) {
         pstmtPool = statementPool;
     }
 
@@ -179,13 +178,11 @@ class PooledConnectionImpl
         if (logicalConnection != null && !logicalConnection.isClosed()) {
             // should notify pool of error so the pooled connection can
             // be removed !FIXME!
-            throw new SQLException("PooledConnection was reused, without "
-                    + "its previous Connection being closed.");
+            throw new SQLException("PooledConnection was reused, without " + "its previous Connection being closed.");
         }
 
         // the spec requires that this return a new Connection instance.
-        logicalConnection = new ConnectionImpl(
-                this, connection, isAccessToUnderlyingConnectionAllowed());
+        logicalConnection = new ConnectionImpl(this, connection, isAccessToUnderlyingConnectionAllowed());
         return logicalConnection;
     }
 
@@ -193,8 +190,7 @@ class PooledConnectionImpl
      * {@inheritDoc}
      */
     @Override
-    public void removeConnectionEventListener(
-            final ConnectionEventListener listener) {
+    public void removeConnectionEventListener(final ConnectionEventListener listener) {
         eventListeners.remove(listener);
     }
 
@@ -220,8 +216,7 @@ class PooledConnectionImpl
 
         // make sure the last connection is marked as closed
         if (logicalConnection != null && !logicalConnection.isClosed()) {
-            throw new SQLException("PooledConnection was gc'ed, without"
-                    + "its last Connection being closed.");
+            throw new SQLException("PooledConnection was gc'ed, without" + "its last Connection being closed.");
         }
     }
 
@@ -241,6 +236,7 @@ class PooledConnectionImpl
 
     /**
      * Create or obtain a {@link PreparedStatement} from my pool.
+     *
      * @param sql the SQL statement
      * @return a {@link PoolablePreparedStatement}
      */
@@ -259,29 +255,26 @@ class PooledConnectionImpl
 
     /**
      * Create or obtain a {@link PreparedStatement} from my pool.
-     * @param sql a <code>String</code> object that is the SQL statement to
-     *            be sent to the database; may contain one or more '?' IN
-     *            parameters
-     * @param resultSetType a result set type; one of
-     *         <code>ResultSet.TYPE_FORWARD_ONLY</code>,
-     *         <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code>, or
-     *         <code>ResultSet.TYPE_SCROLL_SENSITIVE</code>
-     * @param resultSetConcurrency a concurrency type; one of
-     *         <code>ResultSet.CONCUR_READ_ONLY</code> or
-     *         <code>ResultSet.CONCUR_UPDATABLE</code>
      *
+     * @param sql                  a <code>String</code> object that is the SQL statement to
+     *                             be sent to the database; may contain one or more '?' IN
+     *                             parameters
+     * @param resultSetType        a result set type; one of
+     *                             <code>ResultSet.TYPE_FORWARD_ONLY</code>,
+     *                             <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code>, or
+     *                             <code>ResultSet.TYPE_SCROLL_SENSITIVE</code>
+     * @param resultSetConcurrency a concurrency type; one of
+     *                             <code>ResultSet.CONCUR_READ_ONLY</code> or
+     *                             <code>ResultSet.CONCUR_UPDATABLE</code>
      * @return a {@link PoolablePreparedStatement}
      * @see Connection#prepareStatement(String, int, int)
      */
-    PreparedStatement prepareStatement(final String sql, final int resultSetType,
-                                       final int resultSetConcurrency)
-            throws SQLException {
+    PreparedStatement prepareStatement(final String sql, final int resultSetType, final int resultSetConcurrency) throws SQLException {
         if (pstmtPool == null) {
             return connection.prepareStatement(sql, resultSetType, resultSetConcurrency);
         }
         try {
-            return pstmtPool.borrowObject(
-                    createKey(sql,resultSetType,resultSetConcurrency));
+            return pstmtPool.borrowObject(createKey(sql, resultSetType, resultSetConcurrency));
         } catch (final RuntimeException e) {
             throw e;
         } catch (final Exception e) {
@@ -291,22 +284,22 @@ class PooledConnectionImpl
 
     /**
      * Create or obtain a {@link PreparedStatement} from my pool.
-     * @param sql an SQL statement that may contain one or more '?' IN
-     *        parameter placeholders
+     *
+     * @param sql               an SQL statement that may contain one or more '?' IN
+     *                          parameter placeholders
      * @param autoGeneratedKeys a flag indicating whether auto-generated keys
-     *        should be returned; one of
-     *        <code>Statement.RETURN_GENERATED_KEYS</code> or
-     *        <code>Statement.NO_GENERATED_KEYS</code>
+     *                          should be returned; one of
+     *                          <code>Statement.RETURN_GENERATED_KEYS</code> or
+     *                          <code>Statement.NO_GENERATED_KEYS</code>
      * @return a {@link PoolablePreparedStatement}
      * @see Connection#prepareStatement(String, int)
      */
-    PreparedStatement prepareStatement(final String sql, final int autoGeneratedKeys)
-            throws SQLException {
+    PreparedStatement prepareStatement(final String sql, final int autoGeneratedKeys) throws SQLException {
         if (pstmtPool == null) {
             return connection.prepareStatement(sql, autoGeneratedKeys);
         }
         try {
-            return pstmtPool.borrowObject(createKey(sql,autoGeneratedKeys));
+            return pstmtPool.borrowObject(createKey(sql, autoGeneratedKeys));
         } catch (final RuntimeException e) {
             throw e;
         } catch (final Exception e) {
@@ -314,16 +307,12 @@ class PooledConnectionImpl
         }
     }
 
-    PreparedStatement prepareStatement(final String sql, final int resultSetType,
-            final int resultSetConcurrency, final int resultSetHoldability)
-    throws SQLException {
+    PreparedStatement prepareStatement(final String sql, final int resultSetType, final int resultSetConcurrency, final int resultSetHoldability) throws SQLException {
         if (pstmtPool == null) {
-            return connection.prepareStatement(sql, resultSetType,
-                    resultSetConcurrency, resultSetHoldability);
+            return connection.prepareStatement(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
         }
         try {
-            return pstmtPool.borrowObject(createKey(sql, resultSetType,
-                    resultSetConcurrency, resultSetHoldability));
+            return pstmtPool.borrowObject(createKey(sql, resultSetType, resultSetConcurrency, resultSetHoldability));
         } catch (final RuntimeException e) {
             throw e;
         } catch (final Exception e) {
@@ -331,8 +320,7 @@ class PooledConnectionImpl
         }
     }
 
-    PreparedStatement prepareStatement(final String sql, final int columnIndexes[])
-    throws SQLException {
+    PreparedStatement prepareStatement(final String sql, final int columnIndexes[]) throws SQLException {
         if (pstmtPool == null) {
             return connection.prepareStatement(sql, columnIndexes);
         }
@@ -345,8 +333,7 @@ class PooledConnectionImpl
         }
     }
 
-    PreparedStatement prepareStatement(final String sql, final String columnNames[])
-    throws SQLException {
+    PreparedStatement prepareStatement(final String sql, final String columnNames[]) throws SQLException {
         if (pstmtPool == null) {
             return connection.prepareStatement(sql, columnNames);
         }
@@ -369,10 +356,8 @@ class PooledConnectionImpl
     /**
      * Create a {@link PooledConnectionImpl.PStmtKey} for the given arguments.
      */
-    protected PStmtKeyCPDS createKey(final String sql, final int resultSetType,
-            final int resultSetConcurrency, final int resultSetHoldability) {
-        return new PStmtKeyCPDS(normalizeSQL(sql), resultSetType,
-                resultSetConcurrency, resultSetHoldability);
+    protected PStmtKeyCPDS createKey(final String sql, final int resultSetType, final int resultSetConcurrency, final int resultSetHoldability) {
+        return new PStmtKeyCPDS(normalizeSQL(sql), resultSetType, resultSetConcurrency, resultSetHoldability);
     }
 
     /**
@@ -392,10 +377,8 @@ class PooledConnectionImpl
     /**
      * Create a {@link PooledConnectionImpl.PStmtKey} for the given arguments.
      */
-    protected PStmtKeyCPDS createKey(final String sql, final int resultSetType,
-                               final int resultSetConcurrency) {
-        return new PStmtKeyCPDS(normalizeSQL(sql), resultSetType,
-                            resultSetConcurrency);
+    protected PStmtKeyCPDS createKey(final String sql, final int resultSetType, final int resultSetConcurrency) {
+        return new PStmtKeyCPDS(normalizeSQL(sql), resultSetType, resultSetConcurrency);
     }
 
     /**
@@ -416,6 +399,7 @@ class PooledConnectionImpl
     /**
      * My {@link KeyedPooledObjectFactory} method for creating
      * {@link PreparedStatement}s.
+     *
      * @param key the key for the {@link PreparedStatement} to be created
      */
     @Override
@@ -424,74 +408,61 @@ class PooledConnectionImpl
             throw new IllegalArgumentException();
         }
         // _openPstmts++;
-        if (null == key.getResultSetType()
-                && null == key.getResultSetConcurrency()) {
+        if (null == key.getResultSetType() && null == key.getResultSetConcurrency()) {
             if (null == key.getAutoGeneratedKeys()) {
-                return new DefaultPooledObject<>(new PoolablePreparedStatement<>(
-                        connection.prepareStatement(key.getSql()),
-                        key, pstmtPool, delegatingConnection));
+                return new DefaultPooledObject<>(new PoolablePreparedStatement<>(connection.prepareStatement(key.getSql()), key, pstmtPool, delegatingConnection));
             }
-            return new DefaultPooledObject<>(new PoolablePreparedStatement<>(
-                            connection.prepareStatement(key.getSql(),
-                                    key.getAutoGeneratedKeys().intValue()),
-                            key, pstmtPool, delegatingConnection));
+            return new DefaultPooledObject<>(new PoolablePreparedStatement<>(connection.prepareStatement(key.getSql(), key.getAutoGeneratedKeys().intValue()), key, pstmtPool, delegatingConnection));
         }
-        return new DefaultPooledObject<>(new PoolablePreparedStatement<>(
-                connection.prepareStatement(key.getSql(),
-                        key.getResultSetType().intValue(),
-                        key.getResultSetConcurrency().intValue()),
-                        key, pstmtPool, delegatingConnection));
+        return new DefaultPooledObject<>(new PoolablePreparedStatement<>(connection.prepareStatement(key.getSql(), key.getResultSetType().intValue(), key.getResultSetConcurrency().intValue()), key, pstmtPool, delegatingConnection));
     }
 
     /**
      * My {@link KeyedPooledObjectFactory} method for destroying
      * {@link PreparedStatement}s.
+     *
      * @param key ignored
-     * @param p the wrapped {@link PreparedStatement} to be destroyed.
+     * @param p   the wrapped {@link PreparedStatement} to be destroyed.
      */
     @Override
-    public void destroyObject(final PStmtKeyCPDS key,
-            final PooledObject<PoolablePreparedStatement<PStmtKeyCPDS>> p)
-            throws Exception {
+    public void destroyObject(final PStmtKeyCPDS key, final PooledObject<PoolablePreparedStatement<PStmtKeyCPDS>> p) throws Exception {
         p.getObject().getInnermostDelegate().close();
     }
 
     /**
      * My {@link KeyedPooledObjectFactory} method for validating
      * {@link PreparedStatement}s.
+     *
      * @param key ignored
-     * @param p ignored
+     * @param p   ignored
      * @return {@code true}
      */
     @Override
-    public boolean validateObject(final PStmtKeyCPDS key,
-            final PooledObject<PoolablePreparedStatement<PStmtKeyCPDS>> p) {
+    public boolean validateObject(final PStmtKeyCPDS key, final PooledObject<PoolablePreparedStatement<PStmtKeyCPDS>> p) {
         return true;
     }
 
     /**
      * My {@link KeyedPooledObjectFactory} method for activating
      * {@link PreparedStatement}s.
+     *
      * @param key ignored
-     * @param p ignored
+     * @param p   ignored
      */
     @Override
-    public void activateObject(final PStmtKeyCPDS key,
-            final PooledObject<PoolablePreparedStatement<PStmtKeyCPDS>> p)
-            throws Exception {
+    public void activateObject(final PStmtKeyCPDS key, final PooledObject<PoolablePreparedStatement<PStmtKeyCPDS>> p) throws Exception {
         p.getObject().activate();
     }
 
     /**
      * My {@link KeyedPooledObjectFactory} method for passivating
      * {@link PreparedStatement}s.  Currently invokes {@link PreparedStatement#clearParameters}.
+     *
      * @param key ignored
-     * @param p a wrapped {@link PreparedStatement}
+     * @param p   a wrapped {@link PreparedStatement}
      */
     @Override
-    public void passivateObject(final PStmtKeyCPDS key,
-            final PooledObject<PoolablePreparedStatement<PStmtKeyCPDS>> p)
-            throws Exception {
+    public void passivateObject(final PStmtKeyCPDS key, final PooledObject<PoolablePreparedStatement<PStmtKeyCPDS>> p) throws Exception {
         final PoolablePreparedStatement<PStmtKeyCPDS> ppss = p.getObject();
         ppss.clearParameters();
         ppss.passivate();

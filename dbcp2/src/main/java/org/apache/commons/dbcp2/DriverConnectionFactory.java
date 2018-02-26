@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 package org.apache.commons.dbcp2;
+
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.SQLException;
@@ -35,7 +36,7 @@ public class DriverConnectionFactory implements ConnectionFactory {
 
     @Override
     public Connection createConnection() throws SQLException {
-        return _driver.connect(_connectUri,_props);
+        return _driver.connect(_connectUri, _props);
     }
 
     private final Driver _driver;
@@ -45,6 +46,6 @@ public class DriverConnectionFactory implements ConnectionFactory {
     @Override
     public String toString() {
         return this.getClass().getName() + " [" + String.valueOf(_driver) + ";" +
-                String.valueOf(_connectUri) + ";"  + String.valueOf(_props) + "]";
+                String.valueOf(_connectUri) + ";" + String.valueOf(_props) + "]";
     }
 }

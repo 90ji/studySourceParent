@@ -48,6 +48,7 @@ final class PooledConnectionAndInfo {
 
     /**
      * Get the value of password.
+     *
      * @return value of password.
      */
     String getPassword() {
@@ -56,6 +57,7 @@ final class PooledConnectionAndInfo {
 
     /**
      * Get the value of username.
+     *
      * @return value of username.
      */
     String getUsername() {

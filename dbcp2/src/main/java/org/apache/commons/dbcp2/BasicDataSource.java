@@ -169,8 +169,7 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
     /**
      * The default TransactionIsolation state of connections created by this pool.
      */
-    private volatile int defaultTransactionIsolation =
-            PoolableConnectionFactory.UNKNOWN_TRANSACTIONISOLATION;
+    private volatile int defaultTransactionIsolation = PoolableConnectionFactory.UNKNOWN_TRANSACTIONISOLATION;
 
     /**
      * Returns the default transaction isolation state of returned connections.
@@ -383,8 +382,7 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
      * @param driverClassLoader the class loader with which to load the JDBC
      *                          driver
      */
-    public synchronized void setDriverClassLoader(
-            final ClassLoader driverClassLoader) {
+    public synchronized void setDriverClassLoader(final ClassLoader driverClassLoader) {
         this.driverClassLoader = driverClassLoader;
     }
 
@@ -566,8 +564,7 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
      * are no available connections) for a connection to be returned before
      * throwing an exception, or <= 0 to wait indefinitely.
      */
-    private long maxWaitMillis =
-            BaseObjectPoolConfig.DEFAULT_MAX_WAIT_MILLIS;
+    private long maxWaitMillis = BaseObjectPoolConfig.DEFAULT_MAX_WAIT_MILLIS;
 
     /**
      * Returns the maximum number of milliseconds that the pool will wait
@@ -636,8 +633,7 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
      * and <code>maxOpenPreparedStatements</code> limits the total number of prepared or callable statements
      * that may be in use at a given time.</p>
      */
-    private int maxOpenPreparedStatements =
-            GenericKeyedObjectPoolConfig.DEFAULT_MAX_TOTAL;
+    private int maxOpenPreparedStatements = GenericKeyedObjectPoolConfig.DEFAULT_MAX_TOTAL;
 
     /**
      * Gets the value of the <code>maxOpenPreparedStatements</code> property.
@@ -766,8 +762,7 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
      * evictor thread.  When non-positive, no idle object evictor thread will
      * be run.
      */
-    private long timeBetweenEvictionRunsMillis =
-            BaseObjectPoolConfig.DEFAULT_TIME_BETWEEN_EVICTION_RUNS_MILLIS;
+    private long timeBetweenEvictionRunsMillis = BaseObjectPoolConfig.DEFAULT_TIME_BETWEEN_EVICTION_RUNS_MILLIS;
 
     /**
      * Returns the value of the {@link #timeBetweenEvictionRunsMillis}
@@ -798,8 +793,7 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
      * The number of objects to examine during each run of the idle object
      * evictor thread (if any).
      */
-    private int numTestsPerEvictionRun =
-            BaseObjectPoolConfig.DEFAULT_NUM_TESTS_PER_EVICTION_RUN;
+    private int numTestsPerEvictionRun = BaseObjectPoolConfig.DEFAULT_NUM_TESTS_PER_EVICTION_RUN;
 
     /**
      * Returns the value of the {@link #numTestsPerEvictionRun} property.
@@ -831,8 +825,7 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
      * The minimum amount of time an object may sit idle in the pool before it
      * is eligible for eviction by the idle object evictor (if any).
      */
-    private long minEvictableIdleTimeMillis =
-            BaseObjectPoolConfig.DEFAULT_MIN_EVICTABLE_IDLE_TIME_MILLIS;
+    private long minEvictableIdleTimeMillis = BaseObjectPoolConfig.DEFAULT_MIN_EVICTABLE_IDLE_TIME_MILLIS;
 
     /**
      * Returns the {@link #minEvictableIdleTimeMillis} property.
@@ -866,8 +859,7 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
      * Note that {@code minEvictableIdleTimeMillis} takes precedence over this
      * parameter.  See {@link #getSoftMinEvictableIdleTimeMillis()}.
      */
-    private long softMinEvictableIdleTimeMillis =
-            BaseObjectPoolConfig.DEFAULT_SOFT_MIN_EVICTABLE_IDLE_TIME_MILLIS;
+    private long softMinEvictableIdleTimeMillis = BaseObjectPoolConfig.DEFAULT_SOFT_MIN_EVICTABLE_IDLE_TIME_MILLIS;
 
     /**
      * Sets the minimum amount of time a connection may sit idle in the pool
@@ -910,8 +902,7 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
         return softMinEvictableIdleTimeMillis;
     }
 
-    private String evictionPolicyClassName =
-            BaseObjectPoolConfig.DEFAULT_EVICTION_POLICY_CLASS_NAME;
+    private String evictionPolicyClassName = BaseObjectPoolConfig.DEFAULT_EVICTION_POLICY_CLASS_NAME;
 
     /**
      * Gets the EvictionPolicy implementation in use with this connection pool.
@@ -1502,8 +1493,7 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
     /**
      * The PrintWriter to which log messages should be directed.
      */
-    private volatile PrintWriter logWriter = new PrintWriter(new OutputStreamWriter(
-            System.out, StandardCharsets.UTF_8));
+    private volatile PrintWriter logWriter = new PrintWriter(new OutputStreamWriter(System.out, StandardCharsets.UTF_8));
 
 
     // ----------------------------------------------------- DataSource Methods
@@ -1658,13 +1648,11 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
      *                                     be removed on pool maintenance.
      * @see #getRemoveAbandonedOnMaintenance()
      */
-    public void setRemoveAbandonedOnMaintenance(
-            final boolean removeAbandonedOnMaintenance) {
+    public void setRemoveAbandonedOnMaintenance(final boolean removeAbandonedOnMaintenance) {
         if (abandonedConfig == null) {
             abandonedConfig = new AbandonedConfig();
         }
-        abandonedConfig.setRemoveAbandonedOnMaintenance(
-                removeAbandonedOnMaintenance);
+        abandonedConfig.setRemoveAbandonedOnMaintenance(removeAbandonedOnMaintenance);
         final GenericObjectPool<?> gop = this.connectionPool;
         if (gop != null) {
             gop.setAbandonedConfig(abandonedConfig);
@@ -2024,8 +2012,7 @@ public class BasicDataSource implements DataSource, BasicDataSourceMXBean, MBean
      *
      * @throws SQLException if the object pool cannot be created.
      */
-    protected DataSource createDataSource()
-            throws SQLException {
+    protected DataSource createDataSource() throws SQLException {
         if (closed) {
             throw new SQLException("Data source is closed");
         }

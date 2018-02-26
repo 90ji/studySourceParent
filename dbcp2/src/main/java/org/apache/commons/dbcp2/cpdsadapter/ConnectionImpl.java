@@ -32,7 +32,7 @@ import org.apache.commons.dbcp2.DelegatingPreparedStatement;
  * In accordance with the JDBC specification this Connection cannot
  * be used after closed() is called.  Any further usage will result in an
  * SQLException.
- *
+ * <p>
  * ConnectionImpl extends DelegatingConnection to enable access to the
  * underlying connection.
  *
@@ -43,23 +43,22 @@ class ConnectionImpl extends DelegatingConnection<Connection> {
 
     private final boolean accessToUnderlyingConnectionAllowed;
 
-    /** The object that instantiated this object */
-     private final PooledConnectionImpl pooledConnection;
+    /**
+     * The object that instantiated this object
+     */
+    private final PooledConnectionImpl pooledConnection;
 
     /**
      * Creates a <code>ConnectionImpl</code>.
      *
-     * @param pooledConnection The PooledConnection that is calling the ctor.
-     * @param connection The JDBC 1.x Connection to wrap.
+     * @param pooledConnection                    The PooledConnection that is calling the ctor.
+     * @param connection                          The JDBC 1.x Connection to wrap.
      * @param accessToUnderlyingConnectionAllowed if true, then access is allowed to the underlying connection
      */
-    ConnectionImpl(final PooledConnectionImpl pooledConnection,
-            final Connection connection,
-            final boolean accessToUnderlyingConnectionAllowed) {
+    ConnectionImpl(final PooledConnectionImpl pooledConnection, final Connection connection, final boolean accessToUnderlyingConnectionAllowed) {
         super(connection);
         this.pooledConnection = pooledConnection;
-        this.accessToUnderlyingConnectionAllowed =
-            accessToUnderlyingConnectionAllowed;
+        this.accessToUnderlyingConnectionAllowed = accessToUnderlyingConnectionAllowed;
     }
 
     /**
@@ -91,16 +90,14 @@ class ConnectionImpl extends DelegatingConnection<Connection> {
      * @param sql SQL statement to be prepared
      * @return the prepared statement
      * @throws SQLException if this connection is closed or an error occurs
-     * in the wrapped connection.
+     *                      in the wrapped connection.
      */
     @Override
     public PreparedStatement prepareStatement(final String sql) throws SQLException {
         checkOpen();
         try {
-            return new DelegatingPreparedStatement
-                (this, pooledConnection.prepareStatement(sql));
-        }
-        catch (final SQLException e) {
+            return new DelegatingPreparedStatement(this, pooledConnection.prepareStatement(sql));
+        } catch (final SQLException e) {
             handleException(e); // Does not return
             return null;
         }
@@ -112,78 +109,58 @@ class ConnectionImpl extends DelegatingConnection<Connection> {
      * delegate to the wrapped JDBC 1.x {@link java.sql.Connection}.
      *
      * @throws SQLException if this connection is closed or an error occurs
-     * in the wrapped connection.
+     *                      in the wrapped connection.
      */
     @Override
-    public PreparedStatement prepareStatement(final String sql, final int resultSetType,
-                                              final int resultSetConcurrency)
-            throws SQLException {
+    public PreparedStatement prepareStatement(final String sql, final int resultSetType, final int resultSetConcurrency) throws SQLException {
         checkOpen();
         try {
-            return new DelegatingPreparedStatement
-                (this, pooledConnection.prepareStatement
-                    (sql,resultSetType,resultSetConcurrency));
-        }
-        catch (final SQLException e) {
+            return new DelegatingPreparedStatement(this, pooledConnection.prepareStatement(sql, resultSetType, resultSetConcurrency));
+        } catch (final SQLException e) {
             handleException(e);
             return null;
         }
     }
 
     @Override
-    public PreparedStatement prepareStatement(final String sql, final int resultSetType,
-                                              final int resultSetConcurrency,
-                                              final int resultSetHoldability)
-            throws SQLException {
+    public PreparedStatement prepareStatement(final String sql, final int resultSetType, final int resultSetConcurrency, final int resultSetHoldability) throws SQLException {
         checkOpen();
         try {
-            return new DelegatingPreparedStatement(this,
-                    pooledConnection.prepareStatement(sql, resultSetType,
-                            resultSetConcurrency, resultSetHoldability));
-        }
-        catch (final SQLException e) {
+            return new DelegatingPreparedStatement(this, pooledConnection.prepareStatement(sql, resultSetType, resultSetConcurrency, resultSetHoldability));
+        } catch (final SQLException e) {
             handleException(e);
             return null;
         }
     }
 
     @Override
-    public PreparedStatement prepareStatement(final String sql, final int autoGeneratedKeys)
-            throws SQLException {
+    public PreparedStatement prepareStatement(final String sql, final int autoGeneratedKeys) throws SQLException {
         checkOpen();
         try {
-            return new DelegatingPreparedStatement(this,
-                    pooledConnection.prepareStatement(sql, autoGeneratedKeys));
-        }
-        catch (final SQLException e) {
+            return new DelegatingPreparedStatement(this, pooledConnection.prepareStatement(sql, autoGeneratedKeys));
+        } catch (final SQLException e) {
             handleException(e);
             return null;
         }
     }
 
     @Override
-    public PreparedStatement prepareStatement(final String sql, final int columnIndexes[])
-            throws SQLException {
+    public PreparedStatement prepareStatement(final String sql, final int columnIndexes[]) throws SQLException {
         checkOpen();
         try {
-            return new DelegatingPreparedStatement(this,
-                    pooledConnection.prepareStatement(sql, columnIndexes));
-        }
-        catch (final SQLException e) {
+            return new DelegatingPreparedStatement(this, pooledConnection.prepareStatement(sql, columnIndexes));
+        } catch (final SQLException e) {
             handleException(e);
             return null;
         }
     }
 
     @Override
-    public PreparedStatement prepareStatement(final String sql, final String columnNames[])
-            throws SQLException {
+    public PreparedStatement prepareStatement(final String sql, final String columnNames[]) throws SQLException {
         checkOpen();
         try {
-            return new DelegatingPreparedStatement(this,
-                    pooledConnection.prepareStatement(sql, columnNames));
-        }
-        catch (final SQLException e) {
+            return new DelegatingPreparedStatement(this, pooledConnection.prepareStatement(sql, columnNames));
+        } catch (final SQLException e) {
             handleException(e);
             return null;
         }
@@ -195,6 +172,7 @@ class ConnectionImpl extends DelegatingConnection<Connection> {
 
     /**
      * If false, getDelegate() and getInnermostDelegate() will return null.
+     *
      * @return true if access is allowed to the underlying connection
      * @see ConnectionImpl
      */
@@ -204,6 +182,7 @@ class ConnectionImpl extends DelegatingConnection<Connection> {
 
     /**
      * Get the delegated connection, if allowed.
+     *
      * @return the internal connection, or null if access is not allowed.
      * @see #isAccessToUnderlyingConnectionAllowed()
      */
@@ -217,6 +196,7 @@ class ConnectionImpl extends DelegatingConnection<Connection> {
 
     /**
      * Get the innermost connection, if allowed.
+     *
      * @return the innermost internal connection, or null if access is not allowed.
      * @see #isAccessToUnderlyingConnectionAllowed()
      */

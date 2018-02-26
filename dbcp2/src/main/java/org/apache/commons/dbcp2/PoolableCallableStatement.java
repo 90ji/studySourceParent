@@ -39,7 +39,7 @@ public class PoolableCallableStatement extends DelegatingCallableStatement {
     /**
      * The {@link KeyedObjectPool} from which this CallableStatement was obtained.
      */
-    private final KeyedObjectPool<PStmtKey,DelegatingPreparedStatement> _pool;
+    private final KeyedObjectPool<PStmtKey, DelegatingPreparedStatement> _pool;
 
     /**
      * Key for this statement in the containing {@link KeyedObjectPool}.
@@ -50,20 +50,18 @@ public class PoolableCallableStatement extends DelegatingCallableStatement {
      * Constructor.
      *
      * @param stmt the underlying {@link CallableStatement}
-     * @param key the key for this statement in the {@link KeyedObjectPool}
+     * @param key  the key for this statement in the {@link KeyedObjectPool}
      * @param pool the {@link KeyedObjectPool} from which this CallableStatement was obtained
      * @param conn the {@link DelegatingConnection} that created this CallableStatement
      */
-    public PoolableCallableStatement(final CallableStatement stmt, final PStmtKey key,
-            final KeyedObjectPool<PStmtKey,DelegatingPreparedStatement> pool,
-            final DelegatingConnection<Connection> conn) {
+    public PoolableCallableStatement(final CallableStatement stmt, final PStmtKey key, final KeyedObjectPool<PStmtKey, DelegatingPreparedStatement> pool, final DelegatingConnection<Connection> conn) {
         super(conn, stmt);
         _pool = pool;
         _key = key;
 
         // Remove from trace now because this statement will be
         // added by the activate method.
-        if(getConnectionInternal() != null) {
+        if (getConnectionInternal() != null) {
             getConnectionInternal().removeTrace(this);
         }
     }
@@ -76,12 +74,12 @@ public class PoolableCallableStatement extends DelegatingCallableStatement {
         // calling close twice should have no effect
         if (!isClosed()) {
             try {
-                _pool.returnObject(_key,this);
-            } catch(final SQLException e) {
+                _pool.returnObject(_key, this);
+            } catch (final SQLException e) {
                 throw e;
-            } catch(final RuntimeException e) {
+            } catch (final RuntimeException e) {
                 throw e;
-            } catch(final Exception e) {
+            } catch (final Exception e) {
                 throw new SQLException("Cannot close CallableStatement (return to pool failed)", e);
             }
         }
@@ -94,8 +92,8 @@ public class PoolableCallableStatement extends DelegatingCallableStatement {
     @Override
     protected void activate() throws SQLException {
         setClosedInternal(false);
-        if( getConnectionInternal() != null ) {
-            getConnectionInternal().addTrace( this );
+        if (getConnectionInternal() != null) {
+            getConnectionInternal().addTrace(this);
         }
         super.activate();
     }
@@ -107,7 +105,7 @@ public class PoolableCallableStatement extends DelegatingCallableStatement {
     @Override
     protected void passivate() throws SQLException {
         setClosedInternal(true);
-        if( getConnectionInternal() != null ) {
+        if (getConnectionInternal() != null) {
             getConnectionInternal().removeTrace(this);
         }
 
@@ -116,7 +114,7 @@ public class PoolableCallableStatement extends DelegatingCallableStatement {
         // FIXME The PreparedStatement we're wrapping should handle this for us.
         // See DBCP-10 for what could happen when ResultSets are closed twice.
         final List<AbandonedTrace> resultSets = getTrace();
-        if(resultSets != null) {
+        if (resultSets != null) {
             final ResultSet[] set = resultSets.toArray(new ResultSet[resultSets.size()]);
             for (final ResultSet element : set) {
                 element.close();

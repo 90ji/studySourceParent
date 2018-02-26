@@ -1,19 +1,18 @@
 /**
- *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.commons.dbcp2.managed;
 
@@ -166,8 +165,7 @@ public class BasicManagedDataSource extends BasicDataSource {
 
     @Override
     protected DataSource createDataSourceInstance() throws SQLException {
-        final PoolingDataSource<PoolableConnection> pds =
-                new ManagedDataSource<>(getConnectionPool(), transactionRegistry);
+        final PoolingDataSource<PoolableConnection> pds = new ManagedDataSource<>(getConnectionPool(), transactionRegistry);
         pds.setAccessToUnderlyingConnectionAllowed(isAccessToUnderlyingConnectionAllowed());
         return pds;
     }
@@ -183,8 +181,7 @@ public class BasicManagedDataSource extends BasicDataSource {
             final ConnectionFactory driverConnectionFactory) throws SQLException {
         PoolableConnectionFactory connectionFactory = null;
         try {
-            connectionFactory = new PoolableManagedConnectionFactory(
-                    (XAConnectionFactory) driverConnectionFactory, getRegisteredJmxName());
+            connectionFactory = new PoolableManagedConnectionFactory((XAConnectionFactory) driverConnectionFactory, getRegisteredJmxName());
             connectionFactory.setValidationQuery(getValidationQuery());
             connectionFactory.setValidationQueryTimeout(getValidationQueryTimeout());
             connectionFactory.setConnectionInitSql(getConnectionInitSqls());
@@ -194,8 +191,7 @@ public class BasicManagedDataSource extends BasicDataSource {
             connectionFactory.setDefaultCatalog(getDefaultCatalog());
             connectionFactory.setCacheState(getCacheState());
             connectionFactory.setPoolStatements(isPoolPreparedStatements());
-            connectionFactory.setMaxOpenPreparedStatements(
-                    getMaxOpenPreparedStatements());
+            connectionFactory.setMaxOpenPreparedStatements(getMaxOpenPreparedStatements());
             connectionFactory.setMaxConnLifetimeMillis(getMaxConnLifetimeMillis());
             connectionFactory.setRollbackOnReturn(getRollbackOnReturn());
             connectionFactory.setEnableAutoCommitOnReturn(getEnableAutoCommitOnReturn());

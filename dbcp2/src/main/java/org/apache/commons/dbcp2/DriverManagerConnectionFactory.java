@@ -16,6 +16,7 @@
  */
 
 package org.apache.commons.dbcp2;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -43,8 +44,9 @@ public class DriverManagerConnectionFactory implements ConnectionFactory {
 
     /**
      * Constructor for DriverManagerConnectionFactory.
+     *
      * @param connectUri a database url of the form
-     * <code> jdbc:<em>subprotocol</em>:<em>subname</em></code>
+     *                   <code> jdbc:<em>subprotocol</em>:<em>subname</em></code>
      * @since 2.2
      */
     public DriverManagerConnectionFactory(final String connectUri) {
@@ -54,11 +56,12 @@ public class DriverManagerConnectionFactory implements ConnectionFactory {
 
     /**
      * Constructor for DriverManagerConnectionFactory.
+     *
      * @param connectUri a database url of the form
-     * <code> jdbc:<em>subprotocol</em>:<em>subname</em></code>
-     * @param props a list of arbitrary string tag/value pairs as
-     * connection arguments; normally at least a "user" and "password"
-     * property should be included.
+     *                   <code> jdbc:<em>subprotocol</em>:<em>subname</em></code>
+     * @param props      a list of arbitrary string tag/value pairs as
+     *                   connection arguments; normally at least a "user" and "password"
+     *                   property should be included.
      */
     public DriverManagerConnectionFactory(final String connectUri, final Properties props) {
         _connectUri = connectUri;
@@ -67,10 +70,11 @@ public class DriverManagerConnectionFactory implements ConnectionFactory {
 
     /**
      * Constructor for DriverManagerConnectionFactory.
+     *
      * @param connectUri a database url of the form
-     * <code>jdbc:<em>subprotocol</em>:<em>subname</em></code>
-     * @param uname the database user
-     * @param passwd the user's password
+     *                   <code>jdbc:<em>subprotocol</em>:<em>subname</em></code>
+     * @param uname      the database user
+     * @param passwd     the user's password
      */
     public DriverManagerConnectionFactory(final String connectUri, final String uname, final String passwd) {
         _connectUri = connectUri;
@@ -80,13 +84,13 @@ public class DriverManagerConnectionFactory implements ConnectionFactory {
 
     @Override
     public Connection createConnection() throws SQLException {
-        if(null == _props) {
-            if(_uname == null && _passwd == null) {
+        if (null == _props) {
+            if (_uname == null && _passwd == null) {
                 return DriverManager.getConnection(_connectUri);
             }
-            return DriverManager.getConnection(_connectUri,_uname,_passwd);
+            return DriverManager.getConnection(_connectUri, _uname, _passwd);
         }
-        return DriverManager.getConnection(_connectUri,_props);
+        return DriverManager.getConnection(_connectUri, _props);
     }
 
     private String _connectUri = null;

@@ -28,7 +28,7 @@ import javax.sql.DataSource;
  */
 public class DataSourceConnectionFactory implements ConnectionFactory {
     public DataSourceConnectionFactory(final DataSource source) {
-        this(source,null,null);
+        this(source, null, null);
     }
 
     public DataSourceConnectionFactory(final DataSource source, final String uname, final String passwd) {
@@ -39,10 +39,10 @@ public class DataSourceConnectionFactory implements ConnectionFactory {
 
     @Override
     public Connection createConnection() throws SQLException {
-        if(null == _uname && null == _passwd) {
+        if (null == _uname && null == _passwd) {
             return _source.getConnection();
         }
-        return _source.getConnection(_uname,_passwd);
+        return _source.getConnection(_uname, _passwd);
     }
 
     private final String _uname;

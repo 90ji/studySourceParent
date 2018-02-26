@@ -24,7 +24,7 @@ import java.io.Serializable;
  * backing a SharedPoolDataSource.  Two instances with the same username are considered equal.
  * This ensures that there will be only one keyed pool for each user in the pool.  The password
  * is used (along with the username) by the KeyedCPDSConnectionFactory when creating new connections.</p>
- *
+ * <p>
  * <p>{@link InstanceKeyDataSource#getConnection(String, String)} validates that the password used to create
  * a connection matches the password provided by the client.</p>
  *
@@ -42,6 +42,7 @@ class UserPassKey implements Serializable {
 
     /**
      * Get the value of password.
+     *
      * @return value of password.
      */
     public String getPassword() {
@@ -50,6 +51,7 @@ class UserPassKey implements Serializable {
 
     /**
      * Get the value of username.
+     *
      * @return value of username.
      */
     public String getUsername() {
@@ -60,7 +62,6 @@ class UserPassKey implements Serializable {
      * @return <code>true</code> if the username fields for both
      * objects are equal.  Two instances with the same username
      * but different passwords are considered equal.
-     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -79,9 +80,7 @@ class UserPassKey implements Serializable {
 
         final UserPassKey key = (UserPassKey) obj;
 
-        return this.username == null ?
-                key.username == null :
-                this.username.equals(key.username);
+        return this.username == null ? key.username == null : this.username.equals(key.username);
     }
 
     /**
@@ -89,8 +88,7 @@ class UserPassKey implements Serializable {
      */
     @Override
     public int hashCode() {
-        return this.username != null ?
-                this.username.hashCode() : 0;
+        return this.username != null ? this.username.hashCode() : 0;
     }
 
     @Override

@@ -35,7 +35,6 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
  * {@link Connection}s from the specified {@link ObjectPool}.
  *
  * @param <C> The connection type
- *
  * @author Rodney Waldhoff
  * @author Glenn L. Nielsen
  * @author James House
@@ -46,7 +45,9 @@ public class PoolingDataSource<C extends Connection> implements DataSource, Auto
 
     private static final Log log = LogFactory.getLog(PoolingDataSource.class);
 
-    /** Controls access to the underlying connection */
+    /**
+     * Controls access to the underlying connection
+     */
     private boolean accessToUnderlyingConnectionAllowed = false;
 
     public PoolingDataSource(final ObjectPool<C> pool) {
@@ -63,8 +64,7 @@ public class PoolingDataSource<C extends Connection> implements DataSource, Auto
             if (pcf.getPool() != _pool) {
                 log.warn(Utils.getMessage("poolingDataSource.factoryConfig"));
                 @SuppressWarnings("unchecked") // PCF must have a pool of PCs
-                final
-                ObjectPool<PoolableConnection> p = (ObjectPool<PoolableConnection>) _pool;
+                final ObjectPool<PoolableConnection> p = (ObjectPool<PoolableConnection>) _pool;
                 pcf.setPool(p);
             }
         }
@@ -72,15 +72,16 @@ public class PoolingDataSource<C extends Connection> implements DataSource, Auto
 
     /**
      * Close and free all {@link Connection}s from the pool.
+     *
      * @since 2.1
      */
     @Override
     public void close() throws Exception {
         try {
             _pool.close();
-        } catch(final RuntimeException rte) {
+        } catch (final RuntimeException rte) {
             throw new RuntimeException(Utils.getMessage("pool.close.fail"), rte);
-        } catch(final Exception e) {
+        } catch (final Exception e) {
             throw new SQLException(Utils.getMessage("pool.close.fail"), e);
         }
     }
@@ -136,23 +137,24 @@ public class PoolingDataSource<C extends Connection> implements DataSource, Auto
                 return null;
             }
             return new PoolGuardConnectionWrapper<>(conn);
-        } catch(final SQLException e) {
+        } catch (final SQLException e) {
             throw e;
-        } catch(final NoSuchElementException e) {
+        } catch (final NoSuchElementException e) {
             throw new SQLException("Cannot get a connection, pool error " + e.getMessage(), e);
-        } catch(final RuntimeException e) {
+        } catch (final RuntimeException e) {
             throw e;
-        } catch(final InterruptedException e) {
+        } catch (final InterruptedException e) {
             // Reset the interrupt status so it is visible to callers
             Thread.currentThread().interrupt();
             throw new SQLException("Cannot get a connection, general error", e);
-        } catch(final Exception e) {
+        } catch (final Exception e) {
             throw new SQLException("Cannot get a connection, general error", e);
         }
     }
 
     /**
      * Throws {@link UnsupportedOperationException}
+     *
      * @throws UnsupportedOperationException
      */
     @Override
@@ -162,6 +164,7 @@ public class PoolingDataSource<C extends Connection> implements DataSource, Auto
 
     /**
      * Returns my log writer.
+     *
      * @return my log writer
      * @see DataSource#getLogWriter
      */
@@ -172,8 +175,9 @@ public class PoolingDataSource<C extends Connection> implements DataSource, Auto
 
     /**
      * Throws {@link UnsupportedOperationException}.
+     *
      * @throws UnsupportedOperationException As this
-     *   implementation does not support this feature.
+     *                                       implementation does not support this feature.
      */
     @Override
     public int getLoginTimeout() {
@@ -182,8 +186,9 @@ public class PoolingDataSource<C extends Connection> implements DataSource, Auto
 
     /**
      * Throws {@link UnsupportedOperationException}.
+     *
      * @throws UnsupportedOperationException As this
-     *   implementation does not support this feature.
+     *                                       implementation does not support this feature.
      */
     @Override
     public void setLoginTimeout(final int seconds) {
@@ -192,6 +197,7 @@ public class PoolingDataSource<C extends Connection> implements DataSource, Auto
 
     /**
      * Sets my log writer.
+     *
      * @see DataSource#setLogWriter
      */
     @Override
@@ -199,7 +205,9 @@ public class PoolingDataSource<C extends Connection> implements DataSource, Auto
         _logWriter = out;
     }
 
-    /** My log writer. */
+    /**
+     * My log writer.
+     */
     private PrintWriter _logWriter = null;
 
     private final ObjectPool<C> _pool;
@@ -211,10 +219,10 @@ public class PoolingDataSource<C extends Connection> implements DataSource, Auto
     /**
      * PoolGuardConnectionWrapper is a Connection wrapper that makes sure a
      * closed connection cannot be used anymore.
+     *
      * @since 2.0
      */
-    private class PoolGuardConnectionWrapper<D extends Connection>
-            extends DelegatingConnection<D> {
+    private class PoolGuardConnectionWrapper<D extends Connection> extends DelegatingConnection<D> {
 
         PoolGuardConnectionWrapper(final D delegate) {
             super(delegate);
