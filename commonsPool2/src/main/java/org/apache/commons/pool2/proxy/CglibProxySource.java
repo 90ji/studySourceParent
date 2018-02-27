@@ -25,7 +25,6 @@ import org.apache.commons.pool2.UsageTracking;
  * Provides proxy objects using CGLib.
  *
  * @param <T> type of the pooled object to be proxied
- *
  * @since 2.0
  */
 public class CglibProxySource<T> implements ProxySource<T> {
@@ -34,6 +33,7 @@ public class CglibProxySource<T> implements ProxySource<T> {
 
     /**
      * Create a new proxy source for the given class.
+     * 为给定的类创建一个新的代理源。
      *
      * @param superclass The class to proxy
      */
@@ -46,13 +46,10 @@ public class CglibProxySource<T> implements ProxySource<T> {
         final Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(superclass);
 
-        final CglibProxyHandler<T> proxyInterceptor =
-                new CglibProxyHandler<>(pooledObject, usageTracking);
+        final CglibProxyHandler<T> proxyInterceptor = new CglibProxyHandler<>(pooledObject, usageTracking);
         enhancer.setCallback(proxyInterceptor);
 
-        @SuppressWarnings("unchecked")
-        final
-        T proxy = (T) enhancer.create();
+        @SuppressWarnings("unchecked") final T proxy = (T) enhancer.create();
 
         return proxy;
     }
@@ -60,10 +57,7 @@ public class CglibProxySource<T> implements ProxySource<T> {
 
     @Override
     public T resolveProxy(final T proxy) {
-        @SuppressWarnings("unchecked")
-        final
-        CglibProxyHandler<T> cglibProxyHandler =
-                (CglibProxyHandler<T>) ((Factory) proxy).getCallback(0);
+        @SuppressWarnings("unchecked") final CglibProxyHandler<T> cglibProxyHandler = (CglibProxyHandler<T>) ((Factory) proxy).getCallback(0);
         final T pooledObject = cglibProxyHandler.disableProxy();
         return pooledObject;
     }

@@ -108,6 +108,9 @@ abstract public class KeyFactory {
     /**
      * {@link Type#hashCode()} is very expensive as it traverses full descriptor to calculate hash code.
      * This customizer uses {@link Type#getSort()} as a hash code.
+     * <p>
+     * {@link Type＃hashCode（）}是非常昂贵的，因为它遍历完整的描述符来计算哈希码。
+     * 该定制程序使用{@link Type＃getSort（）}作为哈希码。
      */
     public static final HashCodeCustomizer HASH_ASM_TYPE = new HashCodeCustomizer() {
         public boolean customize(CodeEmitter e, Type type) {
@@ -149,8 +152,7 @@ abstract public class KeyFactory {
         return create(loader, keyInterface, customizer, Collections.<KeyFactoryCustomizer>emptyList());
     }
 
-    public static KeyFactory create(ClassLoader loader, Class keyInterface, KeyFactoryCustomizer customizer,
-                                    List<KeyFactoryCustomizer> next) {
+    public static KeyFactory create(ClassLoader loader, Class keyInterface, KeyFactoryCustomizer customizer, List<KeyFactoryCustomizer> next) {
         Generator gen = new Generator();
         gen.setInterface(keyInterface);
 
@@ -238,19 +240,12 @@ abstract public class KeyFactory {
             }
 
             Type[] parameterTypes = TypeUtils.getTypes(newInstance.getParameterTypes());
-            ce.begin_class(Constants.V1_2,
-                    Constants.ACC_PUBLIC,
-                    getClassName(),
-                    KEY_FACTORY,
-                    new Type[]{Type.getType(keyInterface)},
-                    Constants.SOURCE_FILE);
+            ce.begin_class(Constants.V1_2, Constants.ACC_PUBLIC, getClassName(), KEY_FACTORY, new Type[]{Type.getType(keyInterface)}, Constants.SOURCE_FILE);
             EmitUtils.null_constructor(ce);
             EmitUtils.factory_method(ce, ReflectUtils.getSignature(newInstance));
 
             int seed = 0;
-            CodeEmitter e = ce.begin_method(Constants.ACC_PUBLIC,
-                    TypeUtils.parseConstructor(parameterTypes),
-                    null);
+            CodeEmitter e = ce.begin_method(Constants.ACC_PUBLIC, TypeUtils.parseConstructor(parameterTypes), null);
             e.load_this();
             e.super_invoke_constructor();
             e.load_this();
@@ -262,10 +257,7 @@ abstract public class KeyFactory {
                     fieldType = customizer.getOutType(i, fieldType);
                 }
                 seed += fieldType.hashCode();
-                ce.declare_field(Constants.ACC_PRIVATE | Constants.ACC_FINAL,
-                        getFieldName(i),
-                        fieldType,
-                        null);
+                ce.declare_field(Constants.ACC_PRIVATE | Constants.ACC_FINAL, getFieldName(i), fieldType, null);
                 e.dup();
                 e.load_arg(i);
                 for (FieldTypeCustomizer customizer : fieldTypeCustomizers) {

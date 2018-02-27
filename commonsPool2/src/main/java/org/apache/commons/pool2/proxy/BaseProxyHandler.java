@@ -25,7 +25,6 @@ import org.apache.commons.pool2.UsageTracking;
  * {@link ProxiedObjectPool}.
  *
  * @param <T> type of the wrapped pooled object
- *
  * @since 2.0
  */
 class BaseProxyHandler<T> {
@@ -80,8 +79,7 @@ class BaseProxyHandler<T> {
      */
     void validateProxiedObject() {
         if (pooledObject == null) {
-            throw new IllegalStateException("This object may no longer be " +
-                    "used as it has been returned to the Object Pool.");
+            throw new IllegalStateException("This object may no longer be " + "used as it has been returned to the Object Pool.");
         }
     }
 
@@ -89,10 +87,10 @@ class BaseProxyHandler<T> {
     /**
      * Invoke the given method on the wrapped object.
      *
-     * @param method    The method to invoke
-     * @param args      The arguments to the method
-     * @return          The result of the method call
-     * @throws Throwable    If the method invocation fails
+     * @param method The method to invoke
+     * @param args   The arguments to the method
+     * @return The result of the method call
+     * @throws Throwable If the method invocation fails
      */
     Object doInvoke(final Method method, final Object[] args) throws Throwable {
         validateProxiedObject();

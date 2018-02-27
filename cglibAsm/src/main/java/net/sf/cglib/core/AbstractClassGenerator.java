@@ -31,12 +31,11 @@ import java.util.WeakHashMap;
  * In addition to caching generated classes for performance, it provides hooks for
  * customizing the <code>ClassLoader</code>, name of the generated class, and transformations
  * applied before generation.
- *
+ * <p>
  * 所有代码生成CGLIB业务抽象类。
  * 除了缓存生成的类的性能，它为自定义的类加载器提供挂钩，所生成的类的名称，并在生成前转换应用。
  */
-abstract public class AbstractClassGenerator<T>
-        implements ClassGenerator {
+abstract public class AbstractClassGenerator<T> implements ClassGenerator {
     private static final ThreadLocal CURRENT = new ThreadLocal();
 
     private static volatile Map<ClassLoader, ClassLoaderData> CACHE = new WeakHashMap<ClassLoader, ClassLoaderData>();
@@ -315,9 +314,7 @@ abstract public class AbstractClassGenerator<T>
         try {
             ClassLoader classLoader = data.getClassLoader();
             if (classLoader == null) {
-                throw new IllegalStateException("ClassLoader is null while trying to define class " +
-                        getClassName() + ". It seems that the loader has been expired from a weak reference somehow. " +
-                        "Please file an issue at cglib's issue tracker.");
+                throw new IllegalStateException("ClassLoader is null while trying to define class " + getClassName() + ". It seems that the loader has been expired from a weak reference somehow. " + "Please file an issue at cglib's issue tracker.");
             }
             synchronized (classLoader) {
                 String name = generateClassName(data.getUniqueNamePredicate());//产生新的代理类名称

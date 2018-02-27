@@ -25,7 +25,6 @@ import org.apache.commons.pool2.UsageTracking;
  * Provides proxy objects using Java reflection.
  *
  * @param <T> type of the pooled object to be proxied
- *
  * @since 2.0
  */
 public class JdkProxySource<T> implements ProxySource<T> {
@@ -50,20 +49,14 @@ public class JdkProxySource<T> implements ProxySource<T> {
 
     @Override
     public T createProxy(final T pooledObject, final UsageTracking<T> usageTracking) {
-        @SuppressWarnings("unchecked")
-        final
-        T proxy = (T) Proxy.newProxyInstance(classLoader, interfaces,
-                new JdkProxyHandler<>(pooledObject, usageTracking));
+        @SuppressWarnings("unchecked") final T proxy = (T) Proxy.newProxyInstance(classLoader, interfaces, new JdkProxyHandler<>(pooledObject, usageTracking));
         return proxy;
     }
 
 
     @Override
     public T resolveProxy(final T proxy) {
-        @SuppressWarnings("unchecked")
-        final
-        JdkProxyHandler<T> jdkProxyHandler =
-                (JdkProxyHandler<T>) Proxy.getInvocationHandler(proxy);
+        @SuppressWarnings("unchecked") final JdkProxyHandler<T> jdkProxyHandler = (JdkProxyHandler<T>) Proxy.getInvocationHandler(proxy);
         final T pooledObject = jdkProxyHandler.disableProxy();
         return pooledObject;
     }

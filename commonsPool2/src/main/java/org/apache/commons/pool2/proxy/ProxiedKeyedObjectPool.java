@@ -29,23 +29,21 @@ import org.apache.commons.pool2.UsageTracking;
  *
  * @param <K> type of the key
  * @param <V> type of the pooled object
- *
  * @since 2.0
  */
-public class ProxiedKeyedObjectPool<K,V> implements KeyedObjectPool<K,V> {
+public class ProxiedKeyedObjectPool<K, V> implements KeyedObjectPool<K, V> {
 
-    private final KeyedObjectPool<K,V> pool;
+    private final KeyedObjectPool<K, V> pool;
     private final ProxySource<V> proxySource;
 
 
     /**
      * Create a new proxied object pool.
      *
-     * @param pool  The object pool to wrap
+     * @param pool        The object pool to wrap
      * @param proxySource The source of the proxy objects
      */
-    public ProxiedKeyedObjectPool(final KeyedObjectPool<K,V> pool,
-            final ProxySource<V> proxySource) {
+    public ProxiedKeyedObjectPool(final KeyedObjectPool<K, V> pool, final ProxySource<V> proxySource) {
         this.pool = pool;
         this.proxySource = proxySource;
     }
@@ -53,8 +51,7 @@ public class ProxiedKeyedObjectPool<K,V> implements KeyedObjectPool<K,V> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public V borrowObject(final K key) throws Exception, NoSuchElementException,
-            IllegalStateException {
+    public V borrowObject(final K key) throws Exception, NoSuchElementException, IllegalStateException {
         UsageTracking<V> usageTracking = null;
         if (pool instanceof UsageTracking) {
             usageTracking = (UsageTracking<V>) pool;
@@ -77,8 +74,7 @@ public class ProxiedKeyedObjectPool<K,V> implements KeyedObjectPool<K,V> {
     }
 
     @Override
-    public void addObject(final K key) throws Exception, IllegalStateException,
-            UnsupportedOperationException {
+    public void addObject(final K key) throws Exception, IllegalStateException, UnsupportedOperationException {
         pool.addObject(key);
     }
 

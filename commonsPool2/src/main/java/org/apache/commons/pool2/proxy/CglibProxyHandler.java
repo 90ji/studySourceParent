@@ -27,11 +27,9 @@ import net.sf.cglib.proxy.MethodProxy;
  * CGLib implementation of the proxy handler.
  *
  * @param <T> type of the wrapped pooled object
- *
  * @since 2.0
  */
-class CglibProxyHandler<T> extends BaseProxyHandler<T>
-        implements MethodInterceptor {
+class CglibProxyHandler<T> extends BaseProxyHandler<T> implements MethodInterceptor {
 
 
     /**
@@ -47,8 +45,7 @@ class CglibProxyHandler<T> extends BaseProxyHandler<T>
     }
 
     @Override
-    public Object intercept(final Object object, final Method method, final Object[] args,
-            final MethodProxy methodProxy) throws Throwable {
+    public Object intercept(final Object object, final Method method, final Object[] args, final MethodProxy methodProxy) throws Throwable {
         return doInvoke(method, args);
     }
 }

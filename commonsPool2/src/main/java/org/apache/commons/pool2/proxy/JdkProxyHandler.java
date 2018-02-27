@@ -25,11 +25,9 @@ import org.apache.commons.pool2.UsageTracking;
  * Java reflection implementation of the proxy handler.
  *
  * @param <T> type of the wrapped pooled object
- *
  * @since 2.0
  */
-class JdkProxyHandler<T> extends BaseProxyHandler<T>
-        implements InvocationHandler {
+class JdkProxyHandler<T> extends BaseProxyHandler<T> implements InvocationHandler {
 
     /**
      * Create a Java reflection proxy instance.
@@ -45,8 +43,7 @@ class JdkProxyHandler<T> extends BaseProxyHandler<T>
 
 
     @Override
-    public Object invoke(final Object proxy, final Method method, final Object[] args)
-            throws Throwable {
+    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
         return doInvoke(method, args);
     }
 }
