@@ -41,12 +41,7 @@ public class ClassNameReader {
         final List array = new ArrayList();
         try {
             r.accept(new ClassVisitor(Opcodes.ASM5, null) {
-                public void visit(int version,
-                                  int access,
-                                  String name,
-                                  String signature,
-                                  String superName,
-                                  String[] interfaces) {
+                public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
                     array.add(name.replace('/', '.'));
                     if (superName != null) {
                         array.add(superName.replace('/', '.'));

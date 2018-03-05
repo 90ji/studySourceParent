@@ -44,7 +44,7 @@ public class MyCglibEnhancer {
          * 1--使用replace-method
          * 其他--不改变原有逻辑
          */
-        mode = 1;
+        mode = 0;
         Method doSomethingMethod = TargetBean.class.getMethod("doSomething", Integer.class);
 
         //装配一个简单的BaseBeanDefinition

@@ -522,10 +522,7 @@ public class CodeEmitter extends LocalVariablesSorter {
 
     // package-protected for EmitUtils, try to fix
     void emit_field(int opcode, Type ctype, String name, Type ftype) {
-        mv.visitFieldInsn(opcode,
-                ctype.getInternalName(),
-                name,
-                ftype.getDescriptor());
+        mv.visitFieldInsn(opcode,                ctype.getInternalName(),                name,                ftype.getDescriptor());
     }
 
     public void super_invoke() {
@@ -549,16 +546,10 @@ public class CodeEmitter extends LocalVariablesSorter {
     }
 
     private void emit_invoke(int opcode, Type type, Signature sig) {
-        if (sig.getName().equals(Constants.CONSTRUCTOR_NAME) &&
-                ((opcode == Constants.INVOKEVIRTUAL) ||
-                        (opcode == Constants.INVOKESTATIC))) {
+        if (sig.getName().equals(Constants.CONSTRUCTOR_NAME) &&                ((opcode == Constants.INVOKEVIRTUAL) ||                        (opcode == Constants.INVOKESTATIC))) {
             // TODO: error
         }
-        mv.visitMethodInsn(opcode,
-                type.getInternalName(),
-                sig.getName(),
-                sig.getDescriptor(),
-                opcode == Opcodes.INVOKEINTERFACE);
+        mv.visitMethodInsn(opcode,                type.getInternalName(),                sig.getName(),                sig.getDescriptor(),                opcode == Opcodes.INVOKEINTERFACE);
     }
 
     public void invoke_interface(Type owner, Signature sig) {

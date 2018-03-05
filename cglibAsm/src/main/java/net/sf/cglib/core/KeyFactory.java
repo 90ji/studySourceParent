@@ -144,7 +144,7 @@ abstract public class KeyFactory {
         return create(keyInterface.getClassLoader(), keyInterface, customizer);
     }
 
-    public static KeyFactory create(Class keyInterface, KeyFactoryCustomizer first, List<KeyFactoryCustomizer> next) {
+    public static KeyFactory create(Class keyInterface/*net.sf.cglib.proxy.Enhancer$EnhancerKey*/, KeyFactoryCustomizer first/*KeyFactory.HASH_ASM_TYPE*/, List<KeyFactoryCustomizer> next/*null*/) {
         return create(keyInterface.getClassLoader(), keyInterface, first, next);
     }
 
@@ -231,15 +231,15 @@ abstract public class KeyFactory {
             return instance;
         }
 
-        public void generateClass(ClassVisitor v) {
+        public void generateClass(ClassVisitor v) {//DebuggingClassWriter
             ClassEmitter ce = new ClassEmitter(v);
 
-            Method newInstance = ReflectUtils.findNewInstance(keyInterface);
+            Method newInstance = ReflectUtils.findNewInstance(keyInterface);//这就是那个空实现的newInstance方法
             if (!newInstance.getReturnType().equals(Object.class)) {
                 throw new IllegalArgumentException("newInstance method must return Object");
             }
 
-            Type[] parameterTypes = TypeUtils.getTypes(newInstance.getParameterTypes());
+            Type[] parameterTypes = TypeUtils.getTypes(newInstance.getParameterTypes());//获得这个newInstance参数列表的字节码表示形式
             ce.begin_class(Constants.V1_2, Constants.ACC_PUBLIC, getClassName(), KEY_FACTORY, new Type[]{Type.getType(keyInterface)}, Constants.SOURCE_FILE);
             EmitUtils.null_constructor(ce);
             EmitUtils.factory_method(ce, ReflectUtils.getSignature(newInstance));

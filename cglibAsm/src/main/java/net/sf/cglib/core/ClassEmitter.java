@@ -48,7 +48,7 @@ public class ClassEmitter extends ClassTransformer {
     }
 
     public void setTarget(ClassVisitor cv) {
-        this.cv = cv;
+        this.cv = cv;//DebuggingClassWriter
         fieldInfo = new HashMap();
 
         // just to be safe
@@ -83,12 +83,7 @@ public class ClassEmitter extends ClassTransformer {
                 return access;
             }
         };
-        cv.visit(version,
-                access,
-                classInfo.getType().getInternalName(),
-                null,
-                classInfo.getSuperType().getInternalName(),
-                TypeUtils.toInternalNames(interfaces));
+        cv.visit(version, access, classInfo.getType().getInternalName(), null, classInfo.getSuperType().getInternalName(), TypeUtils.toInternalNames(interfaces));
         if (source != null)
             cv.visitSource(source, null);
         init();
@@ -100,9 +95,7 @@ public class ClassEmitter extends ClassTransformer {
         }
         if (staticHook == null) {
             staticHookSig = new Signature("CGLIB$STATICHOOK" + getNextHook(), "()V");
-            staticHook = begin_method(Constants.ACC_STATIC,
-                    staticHookSig,
-                    null);
+            staticHook = begin_method(Constants.ACC_STATIC, staticHookSig, null);
             if (staticInit != null) {
                 staticInit.invoke_static_this(staticHookSig);
             }
@@ -144,11 +137,7 @@ public class ClassEmitter extends ClassTransformer {
     public CodeEmitter begin_method(int access, Signature sig, Type[] exceptions) {
         if (classInfo == null)
             throw new IllegalStateException("classInfo is null! " + this);
-        MethodVisitor v = cv.visitMethod(access,
-                sig.getName(),
-                sig.getDescriptor(),
-                null,
-                TypeUtils.toInternalNames(exceptions));
+        MethodVisitor v = cv.visitMethod(access, sig.getName(), sig.getDescriptor(), null, TypeUtils.toInternalNames(exceptions));
         if (sig.equals(Constants.SIG_STATIC) && !TypeUtils.isInterface(getAccess())) {
             rawStaticInit = v;
             MethodVisitor wrapped = new MethodVisitor(Opcodes.ASM5, v) {
@@ -230,9 +219,7 @@ public class ClassEmitter extends ClassTransformer {
             if (!(o instanceof FieldInfo))
                 return false;
             FieldInfo other = (FieldInfo) o;
-            if (access != other.access ||
-                    !name.equals(other.name) ||
-                    !type.equals(other.type)) {
+            if (access != other.access || !name.equals(other.name) || !type.equals(other.type)) {
                 return false;
             }
             if ((value == null) ^ (other.value == null))
@@ -247,40 +234,20 @@ public class ClassEmitter extends ClassTransformer {
         }
     }
 
-    public void visit(int version,
-                      int access,
-                      String name,
-                      String signature,
-                      String superName,
-                      String[] interfaces) {
-        begin_class(version,
-                access,
-                name.replace('/', '.'),
-                TypeUtils.fromInternalName(superName),
-                TypeUtils.fromInternalNames(interfaces),
-                null); // TODO
+    public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+        begin_class(version, access, name.replace('/', '.'), TypeUtils.fromInternalName(superName), TypeUtils.fromInternalNames(interfaces), null); // TODO
     }
 
     public void visitEnd() {
         end_class();
     }
 
-    public FieldVisitor visitField(int access,
-                                   String name,
-                                   String desc,
-                                   String signature,
-                                   Object value) {
+    public FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
         declare_field(access, name, Type.getType(desc), value);
         return null; // TODO
     }
 
-    public MethodVisitor visitMethod(int access,
-                                     String name,
-                                     String desc,
-                                     String signature,
-                                     String[] exceptions) {
-        return begin_method(access,
-                new Signature(name, desc),
-                TypeUtils.fromInternalNames(exceptions));
+    public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
+        return begin_method(access, new Signature(name, desc), TypeUtils.fromInternalNames(exceptions));
     }
 }

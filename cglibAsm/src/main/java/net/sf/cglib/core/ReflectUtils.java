@@ -166,8 +166,7 @@ public class ReflectUtils {
             return new Signature(member.getName(), Type.getMethodDescriptor((Method) member));
         } else if (member instanceof Constructor) {
             Type[] types = TypeUtils.getTypes(((Constructor) member).getParameterTypes());
-            return new Signature(Constants.CONSTRUCTOR_NAME,
-                    Type.getMethodDescriptor(Type.VOID_TYPE, types));
+            return new Signature(Constants.CONSTRUCTOR_NAME, Type.getMethodDescriptor(Type.VOID_TYPE, types));
 
         } else {
             throw new IllegalArgumentException("Cannot get signature of a field");

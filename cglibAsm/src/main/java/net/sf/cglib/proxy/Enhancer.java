@@ -151,6 +151,7 @@ public class Enhancer extends AbstractClassGenerator {
      * 内部接口，只由ClassLoader发布公开。
      */
     public interface EnhancerKey {//写出一个接口来通过KeyFactory来生成具体的类
+
         public Object newInstance(String type,
                                   String[] interfaces,
                                   WeakCacheKey<CallbackFilter> filter,
@@ -186,7 +187,7 @@ public class Enhancer extends AbstractClassGenerator {
      * @see Factory
      */
     public Enhancer() {
-        super(SOURCE);
+        super(SOURCE);// net.sf.cglib.proxy.Enhancer
     }
 
     /**
@@ -684,21 +685,9 @@ public class Enhancer extends AbstractClassGenerator {
 
         ClassEmitter e = new ClassEmitter(v);
         if (currentData == null) {
-            e.begin_class(Constants.V1_2,
-                    Constants.ACC_PUBLIC,
-                    getClassName(),
-                    Type.getType(sc),
-                    (useFactory ?
-                            TypeUtils.add(TypeUtils.getTypes(interfaces), FACTORY) :
-                            TypeUtils.getTypes(interfaces)),
-                    Constants.SOURCE_FILE);
+            e.begin_class(Constants.V1_2, Constants.ACC_PUBLIC, getClassName(), Type.getType(sc), (useFactory ? TypeUtils.add(TypeUtils.getTypes(interfaces), FACTORY) : TypeUtils.getTypes(interfaces)), Constants.SOURCE_FILE);
         } else {
-            e.begin_class(Constants.V1_2,
-                    Constants.ACC_PUBLIC,
-                    getClassName(),
-                    null,
-                    new Type[]{FACTORY},
-                    Constants.SOURCE_FILE);
+            e.begin_class(Constants.V1_2, Constants.ACC_PUBLIC, getClassName(), null, new Type[]{FACTORY}, Constants.SOURCE_FILE);
         }
         List constructorInfo = CollectionUtils.transform(constructors, MethodInfoTransformer.getInstance());//将构造方法转为asm字节码表现形式 public com.test01.TargetObject()转为<init>()V
 

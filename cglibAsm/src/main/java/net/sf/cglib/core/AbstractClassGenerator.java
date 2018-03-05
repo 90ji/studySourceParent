@@ -61,7 +61,7 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
          * <p>Note: the only way to access a class is to find it through generatedClasses cache, thus
          * the key should not expire as long as the class itself is alive (its classloader is alive).</p>
          */
-        private final LoadingCache<AbstractClassGenerator, Object, Object> generatedClasses;
+        private final LoadingCache<AbstractClassGenerator, Object, Object> generatedClasses;//ClassLoaderData load的apply方法在ClassLoaderData构造方法中
 
         /**
          * Note: ClassLoaderData object is stored as a value of {@code WeakHashMap<ClassLoader, ...>} thus
@@ -88,13 +88,12 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
                 throw new IllegalArgumentException("classLoader == null is not yet supported");
             }
             this.classLoader = new WeakReference<ClassLoader>(classLoader);
-            Function<AbstractClassGenerator, Object> load =
-                    new Function<AbstractClassGenerator, Object>() {
-                        public Object apply(AbstractClassGenerator gen) {
-                            Class klass = gen.generate(ClassLoaderData.this);
-                            return gen.wrapCachedClass(klass);
-                        }
-                    };
+            Function<AbstractClassGenerator, Object> load = new Function<AbstractClassGenerator, Object>() {
+                public Object apply(AbstractClassGenerator gen) {
+                    Class klass = gen.generate(ClassLoaderData.this);
+                    return gen.wrapCachedClass(klass);
+                }
+            };
             generatedClasses = new LoadingCache<AbstractClassGenerator, Object, Object>(GET_KEY, load);
         }
 
@@ -277,7 +276,7 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
 
     protected Object create(Object key) {//String net.sf.cglib.proxy.Enhancer$EnhancerKey
         try {
-            ClassLoader loader = getClassLoader();
+            ClassLoader loader = getClassLoader();//AppClassLoader
             Map<ClassLoader, ClassLoaderData> cache = CACHE;
             ClassLoaderData data = cache.get(loader);
             if (data == null) {
@@ -298,9 +297,7 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
                 return firstInstance((Class) obj);
             }
             return nextInstance(obj);
-        } catch (RuntimeException e) {
-            throw e;
-        } catch (Error e) {
+        } catch (RuntimeException | Error e) {
             throw e;
         } catch (Exception e) {
             throw new CodeGenerationException(e);
