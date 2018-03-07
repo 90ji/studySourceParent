@@ -9,6 +9,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -18,18 +21,32 @@ import static org.junit.Assert.assertEquals;
 public class BootTest {
 
     @Test
-    public void test01(){
-        ApplicationContext ctx=new ClassPathXmlApplicationContext("classpath:application.xml");
-        MyTestBean myTestBean =(MyTestBean) ctx.getBean("myTestBean");
-        System.out.println(JSON.toJSONString(myTestBean));
+    public void test01() {
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:application.xml");
+        ctx.start();
+//        MyTestBean myTestBean =(MyTestBean) ctx.getBean("myTestBean");
+//        System.out.println(JSON.toJSONString(myTestBean));
 
     }
 
     @Test
-    public void testSimpleLoad(){
-        BeanFactory bf = new XmlBeanFactory(new ClassPathResource( "application.xml"));
-        MyTestBean bean=(MyTestBean) bf.getBean("myTestBean");
+    public void testSimpleLoad() {
+        BeanFactory bf = new XmlBeanFactory(new ClassPathResource("application.xml"));
+        MyTestBean bean = (MyTestBean) bf.getBean("myTestBean");
 
-        assertEquals("hello Horld!",bean.getTestStr());
+        assertEquals("hello Horld!", bean.getTestStr());
+    }
+
+    @Test
+    public void testPID() {
+        Integer PID = -1;
+        try {
+            RuntimeMXBean runtime = ManagementFactory.getRuntimeMXBean();
+            String name = runtime.getName(); // format: "pid@hostname"
+            PID = Integer.parseInt(name.substring(0, name.indexOf('@')));
+        } catch (Throwable e) {
+            PID = 0;
+        }
+        System.out.println(PID);
     }
 }
