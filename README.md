@@ -7,7 +7,6 @@
 现支持下列2种支付方式
 
 >apay.trade.pay.app.ali
-
 >apay.trade.pay.app.wx
 
 ### 公共请求参数
